@@ -41,25 +41,7 @@ import java.awt.im.InputContext;
 public class MaterialLookAndFeel extends MetalLookAndFeel {
 
 	//they need to support temporary version font
-	private Font regularFont;
-	private Font boldFont;
-	private Font mediumFont;
-	private Font lightFont;
-
-	public MaterialLookAndFeel() {
-		InputContext layaut = InputContext.getInstance();
-		if(layaut.getLocale().toString().contains("ar")){
-			regularFont = MaterialFontsSupport.REGULAR;
-			boldFont = MaterialFontsSupport.BOLD;
-			regularFont = MaterialFontsSupport.MEDIUM;
-			lightFont = MaterialFontsSupport.LIGHT;
-		}else{
-			regularFont = MaterialFonts.REGULAR;
-			boldFont = MaterialFonts.BOLD;
-			regularFont = MaterialFonts.MEDIUM;
-			lightFont = MaterialFonts.LIGHT;
-		}
-	}
+	private static final MaterialResurceManager materialResurceManager = new MaterialResurceManager();
 
 	//they are used for UIDefaults
 	private static final String buttonUI = MaterialButtonUI.class.getCanonicalName ();
@@ -91,6 +73,14 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 	private static final String separatorUI = MaterialSeparatorUI.class.getCanonicalName ();
 	private static final String fileChooserUI = MaterialFileChooserUI.class.getCanonicalName ();
 	private static final String toolTipUI = MaterialToolTipUI.class.getCanonicalName ();
+
+	public MaterialLookAndFeel() {
+		materialResurceManager.inizializza();
+	}
+
+	public static MaterialResurceManager getMaterialResurceManager() {
+		return materialResurceManager;
+	}
 
 	@Override
 	public String getName () {
@@ -160,15 +150,15 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 		table.put ("Button.border", BorderFactory.createEmptyBorder (7, 17, 7, 17));
 		table.put ("Button.background", MaterialColors.WHITE);
 		table.put ("Button.foreground", Color.BLACK);
-		table.put ("Button.font", mediumFont);
+		table.put ("Button.font", MaterialFonts.MEDIUM);
 
-		table.put ("CheckBox.font", regularFont);
+		table.put ("CheckBox.font", MaterialFonts.REGULAR);
 		table.put ("CheckBox.background", Color.WHITE);
 		table.put ("CheckBox.foreground", Color.BLACK);
 		table.put ("CheckBox.icon", new ImageIcon (MaterialImages.UNCHECKED_BOX));
 		table.put ("CheckBox.selectedIcon", new ImageIcon (MaterialImages.PAINTED_CHECKED_BOX));
 
-		table.put ("ComboBox.font", regularFont);
+		table.put ("ComboBox.font", MaterialFonts.REGULAR);
 		table.put ("ComboBox.background", Color.WHITE);
 		table.put ("ComboBox.foreground", Color.BLACK);
 		table.put ("ComboBox.border", BorderFactory.createCompoundBorder (MaterialBorders.LIGHT_LINE_BORDER, BorderFactory.createEmptyBorder (0, 5, 0, 0)));
@@ -177,12 +167,12 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 		table.put ("ComboBox.selectionForeground", Color.BLACK);
 		table.put ("ComboBox.selectedInDropDownBackground", MaterialColors.GRAY_200);
 
-		table.put ("Label.font", regularFont);
+		table.put ("Label.font", MaterialFonts.REGULAR);
 		table.put ("Label.background", Color.WHITE);
 		table.put ("Label.foreground", Color.BLACK);
 		table.put ("Label.border", BorderFactory.createEmptyBorder ());
 
-		table.put ("Menu.font", boldFont);
+		table.put ("Menu.font", MaterialFonts.BOLD);
 		table.put ("Menu.border", BorderFactory.createEmptyBorder (5, 5, 5, 5));
 		table.put ("Menu.background", Color.WHITE);
 		table.put ("Menu.foreground", Color.BLACK);
@@ -192,7 +182,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 		table.put ("Menu.disabledForeground", new Color (0, 0, 0, 100));
 		table.put ("Menu.menuPopupOffsetY", 3);
 
-		table.put ("MenuBar.font", boldFont);
+		table.put ("MenuBar.font", MaterialFonts.BOLD);
 		table.put ("MenuBar.background", Color.WHITE);
 		table.put ("MenuBar.border", MaterialBorders.LIGHT_SHADOW_BORDER);
 		table.put ("MenuBar.foreground", Color.BLACK);
@@ -200,16 +190,16 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 		table.put ("MenuItem.disabledForeground", new Color (0, 0, 0, 100));
 		table.put ("MenuItem.selectionBackground", MaterialColors.GRAY_200);
 		table.put ("MenuItem.selectionForeground", Color.BLACK);
-		table.put ("MenuItem.font", mediumFont);
+		table.put ("MenuItem.font", MaterialFonts.MEDIUM);
 		table.put ("MenuItem.background", Color.WHITE);
 		table.put ("MenuItem.foreground", Color.BLACK);
 		table.put ("MenuItem.border", BorderFactory.createEmptyBorder (5, 0, 5, 0));
 
 		table.put ("OptionPane.background", Color.WHITE);
 		table.put ("OptionPane.border", MaterialBorders.DEFAULT_SHADOW_BORDER);
-		table.put ("OptionPane.font", regularFont);
+		table.put ("OptionPane.font", MaterialFonts.REGULAR);
 
-		table.put ("Panel.font", regularFont);
+		table.put ("Panel.font", MaterialFonts.REGULAR);
 		table.put ("Panel.background", Color.WHITE);
 		table.put ("Panel.border", BorderFactory.createEmptyBorder ());
 
@@ -217,20 +207,20 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 		table.put ("PopupMenu.background", Color.WHITE);
 		table.put ("PopupMenu.foreground", Color.BLACK);
 
-		table.put ("RadioButton.font", regularFont);
+		table.put ("RadioButton.font", MaterialFonts.REGULAR);
 		table.put ("RadioButton.background", Color.WHITE);
 		table.put ("RadioButton.foreground", Color.BLACK);
 		table.put ("RadioButton.icon", new ImageIcon (MaterialImages.RADIO_BUTTON_OFF));
 		table.put ("RadioButton.selectedIcon", new ImageIcon (MaterialImages.RADIO_BUTTON_ON));
 
-		table.put ("Spinner.font", regularFont);
+		table.put ("Spinner.font", MaterialFonts.REGULAR);
 		table.put ("Spinner.background", Color.WHITE);
 		table.put ("Spinner.foreground", Color.BLACK);
 		table.put ("Spinner.border", MaterialBorders.LIGHT_LINE_BORDER);
 		table.put ("Spinner.arrowButtonBackground", MaterialColors.GRAY_200);
 		table.put ("Spinner.arrowButtonBorder", BorderFactory.createEmptyBorder ());
 
-		table.put ("ScrollBar.font", regularFont);
+		table.put ("ScrollBar.font", MaterialFonts.REGULAR);
 		table.put ("ScrollBar.track", MaterialColors.GRAY_200);
 		table.put ("ScrollBar.thumb", MaterialColors.GRAY_300);
 		table.put ("ScrollBar.thumbDarkShadow", MaterialColors.GRAY_300);
@@ -241,9 +231,9 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 
 		table.put ("ScrollPane.background", Color.WHITE);
 		table.put ("ScrollPane.border", BorderFactory.createEmptyBorder ());
-		table.put ("ScrollPane.font", regularFont);
+		table.put ("ScrollPane.font", MaterialFonts.REGULAR);
 
-		table.put ("Slider.font", regularFont);
+		table.put ("Slider.font", MaterialFonts.REGULAR);
 		table.put ("Slider.background", Color.WHITE);
 		table.put ("Slider.foreground", MaterialColors.LIGHT_BLUE_400);
 		table.put ("Slider.trackColor", Color.BLACK);
@@ -254,7 +244,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 		table.put ("SplitPane.dividerSize", 5);
 		table.put ("SplitPaneDivider.border", BorderFactory.createEmptyBorder ());
 
-		table.put ("TabbedPane.font", regularFont);
+		table.put ("TabbedPane.font", MaterialFonts.REGULAR);
 		table.put ("TabbedPane.background", Color.WHITE);
 		table.put ("TabbedPane.foreground", Color.BLACK);
 		table.put ("TabbedPane.border", BorderFactory.createEmptyBorder ());
@@ -266,11 +256,11 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 		table.put ("Table.selectionBackground", MaterialColors.GRAY_100);
 		table.put ("Table.selectionForeground", Color.BLACK);
 		table.put ("Table.background", Color.WHITE);
-		table.put ("Table.font", regularFont);
+		table.put ("Table.font", MaterialFonts.REGULAR);
 		table.put ("Table.border", MaterialBorders.LIGHT_LINE_BORDER);
 		table.put ("Table.gridColor", MaterialColors.GRAY_200);
 		table.put ("TableHeader.background", MaterialColors.GRAY_200);
-		table.put ("TableHeader.font", boldFont);
+		table.put ("TableHeader.font", MaterialFonts.BOLD);
 		table.put ("TableHeader.cellBorder", BorderFactory.createCompoundBorder (MaterialBorders.LIGHT_LINE_BORDER, BorderFactory.createEmptyBorder (5, 5, 5, 5)));
 
 		table.put ("TextArea.background", MaterialColors.GRAY_200);
@@ -278,20 +268,20 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 		table.put ("TextArea.foreground", Color.BLACK);
 
 		table.put ("ToggleButton.border", BorderFactory.createEmptyBorder ());
-		table.put ("ToggleButton.font", regularFont);
+		table.put ("ToggleButton.font", MaterialFonts.REGULAR);
 		table.put ("ToggleButton.background", Color.WHITE);
 		table.put ("ToggleButton.foreground", Color.BLACK);
 		table.put ("ToggleButton.icon", new ImageIcon (MaterialImages.TOGGLE_BUTTON_OFF));
 		table.put ("ToggleButton.selectedIcon", new ImageIcon (MaterialImages.TOGGLE_BUTTON_ON));
 
-		table.put ("ToolBar.font", regularFont);
+		table.put ("ToolBar.font", MaterialFonts.REGULAR);
 		table.put ("ToolBar.background", Color.WHITE);
 		table.put ("ToolBar.foreground", Color.BLACK);
 		table.put ("ToolBar.border", MaterialBorders.LIGHT_SHADOW_BORDER);
 		table.put ("ToolBar.dockingBackground", MaterialColors.LIGHT_GREEN_A100);
 		table.put ("ToolBar.floatingBackground", MaterialColors.GRAY_200);
 
-		table.put ("Tree.font", regularFont);
+		table.put ("Tree.font", MaterialFonts.REGULAR);
 		table.put ("Tree.selectionForeground", Color.BLACK);
 		table.put ("Tree.foreground", Color.BLACK);
 		table.put ("Tree.selectionBackground", MaterialColors.GRAY_200);
@@ -308,6 +298,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 		table.put ("RadioButtonMenuItem.border", BorderFactory.createEmptyBorder (5, 5, 5, 5));
 		table.put ("RadioButtonMenuItem.checkIcon", new ImageIcon (MaterialImages.RADIO_BUTTON_OFF));
 		table.put ("RadioButtonMenuItem.selectedCheckIcon", new ImageIcon (MaterialImages.RADIO_BUTTON_ON));
+		table.put ("RadioButtonMenuItem.font", MaterialFonts.REGULAR);
 
 		//If it changes the background of the menuitem it must change this too, irrespective of its setting
 		table.put ("CheckBoxMenuItem.background", UIManager.getColor ("MenuItem.background"));
@@ -317,18 +308,19 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 		table.put ("CheckBoxMenuItem.border", BorderFactory.createEmptyBorder (5, 5, 5, 5));
 		table.put ("CheckBoxMenuItem.checkIcon", new ImageIcon (MaterialImages.UNCHECKED_BOX));
 		table.put ("CheckBoxMenuItem.selectedCheckIcon", new ImageIcon (MaterialImages.PAINTED_CHECKED_BOX));
+		table.put ("CheckBoxMenuItem.font", MaterialFonts.REGULAR);
 
 		table.put ("TextPane.border", MaterialBorders.LIGHT_LINE_BORDER);
 		table.put ("TextPane.background", MaterialColors.GRAY_50);
 		table.put ("TextPane.selectionBackground", MaterialColors.LIGHT_BLUE_200);
 		table.put ("TextPane.inactiveForeground", MaterialColors.GRAY_500);
-		table.put ("TextPane.font", regularFont);
+		table.put ("TextPane.font", MaterialFonts.REGULAR);
 
 		table.put ("EditorPane.border", MaterialBorders.LIGHT_LINE_BORDER);
 		table.put ("EditorPane.background", MaterialColors.GRAY_50);
 		table.put ("EditorPane.selectionBackground", MaterialColors.LIGHT_BLUE_200);
 		table.put ("EditorPane.inactiveForeground", MaterialColors.GRAY_500);
-		table.put ("EditorPane.font", regularFont);
+		table.put ("EditorPane.font", MaterialFonts.REGULAR);
 
 		table.put ("Separator.background", MaterialColors.GRAY_300);
 		table.put ("Separator.foreground", MaterialColors.GRAY_300);

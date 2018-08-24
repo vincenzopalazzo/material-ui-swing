@@ -184,7 +184,7 @@ public class MaterialUISwingDemo {
 		pn.add (textPane1);
 
 		JEditorPane editorPane = new JEditorPane ();
-		editorPane.setText ("This theme is fantastic");
+		editorPane.setText ("سونو سوبر سايان ، باللغة العربية");
 		pn.add (editorPane);
 
 		// make everything visible to the world
