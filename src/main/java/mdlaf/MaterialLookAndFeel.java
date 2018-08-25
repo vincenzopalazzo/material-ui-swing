@@ -145,10 +145,10 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 	protected void initComponentDefaults (UIDefaults table) {
 		super.initComponentDefaults (table);
 
-		table.put ("Button.highlight", MaterialColors.GRAY_200);
+		table.put ("Button.highlight", MaterialColors.GRAY_400);
 		table.put ("Button.opaque", false);
 		table.put ("Button.border", BorderFactory.createEmptyBorder (7, 17, 7, 17));
-		table.put ("Button.background", MaterialColors.WHITE);
+		table.put ("Button.background", MaterialColors.GRAY_200);
 		table.put ("Button.foreground", Color.BLACK);
 		table.put ("Button.font", MaterialFonts.MEDIUM);
 
