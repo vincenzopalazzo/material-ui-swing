@@ -25,6 +25,9 @@ package mdlaf.components.textfield;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
+
+import mdlaf.utils.MaterialConstants;
+
 import java.awt.*;
 
 /**
@@ -36,12 +39,11 @@ public class MaterialTextFieldUI extends MaterialComponentField {
     protected static final String ProprietyPrefix = "TextField";
 
     public MaterialTextFieldUI() {
-        this(true);
+        this((MaterialConstants)UIManager.get(ProprietyPrefix + "[Line].styleType"));
     }
 
-    public MaterialTextFieldUI(boolean drawLine) {
-        super();
-        this.drawLine = drawLine;
+    public MaterialTextFieldUI(MaterialConstants textFieldStyle) {
+        super(textFieldStyle);
     }
 
     @Override

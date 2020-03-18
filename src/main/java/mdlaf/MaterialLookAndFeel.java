@@ -23,16 +23,29 @@
  */
 package mdlaf;
 
-import mdlaf.components.colorchooser.MaterialColorChooser;
-import mdlaf.components.rootpane.MaterialRootPaneUI;
-import mdlaf.components.internalframe.MaterialInternalFrameUI;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.lang.reflect.Method;
+
+import javax.swing.BorderFactory;
+import javax.swing.JTextField;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.basic.BasicLookAndFeel;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.text.DefaultEditorKit;
+
 import mdlaf.components.button.MaterialButtonUI;
 import mdlaf.components.checkbox.MaterialCheckBoxUI;
 import mdlaf.components.checkboxmenuitem.MaterialCheckBoxMenuItemUI;
+import mdlaf.components.colorchooser.MaterialColorChooser;
 import mdlaf.components.combobox.MaterialComboBoxUI;
 import mdlaf.components.editorpane.MaterialEditorPaneUI;
 import mdlaf.components.filechooser.MaterialFileChooserUI;
 import mdlaf.components.formattertextfield.MaterialFormattedTextFieldUI;
+import mdlaf.components.internalframe.MaterialInternalFrameUI;
 import mdlaf.components.label.MaterialLabelUI;
 import mdlaf.components.list.MaterialListUI;
 import mdlaf.components.menu.MaterialMenuUI;
@@ -45,6 +58,7 @@ import mdlaf.components.popupmenu.MaterialPopupMenuUI;
 import mdlaf.components.progressbar.MaterialProgressBarUI;
 import mdlaf.components.radiobutton.MaterialRadioButtonUI;
 import mdlaf.components.radiobuttonmenuitem.MaterialRadioButtonMenuItemUI;
+import mdlaf.components.rootpane.MaterialRootPaneUI;
 import mdlaf.components.scrollbar.MaterialScrollBarUI;
 import mdlaf.components.separator.MaterialSeparatorUI;
 import mdlaf.components.slider.MaterialSliderUI;
@@ -66,20 +80,10 @@ import mdlaf.themes.MaterialTheme;
 import mdlaf.themes.exceptions.MaterialChangeThemeException;
 import mdlaf.utils.MaterialBorders;
 import mdlaf.utils.MaterialColors;
+import mdlaf.utils.MaterialConstants;
 import mdlaf.utils.MaterialFontFactory;
 import mdlaf.utils.MaterialImageFactory;
-
 import sun.awt.SunToolkit;
-
-import javax.swing.*;
-import javax.swing.plaf.BorderUIResource;
-import javax.swing.plaf.InsetsUIResource;
-import javax.swing.plaf.basic.BasicLookAndFeel;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.text.DefaultEditorKit;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.lang.reflect.Method;
 
 /**
  * @author https://github.com/vincenzopalazzo
@@ -127,7 +131,6 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
     private static final String rootPane = MaterialRootPaneUI.class.getCanonicalName();
     private static final String optionPaneUI = MaterialOptionPaneUI.class.getCanonicalName();
     private static final String colorChooserUI = MaterialColorChooser.class.getCanonicalName();
-    //TODO not allineated this component with master
     private static final String splitPaneUI = MaterialSplitPaneUI.class.getCanonicalName();
 
     public static void changeTheme(MaterialTheme theme) {
@@ -142,6 +145,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
             materialLookAndFeel.setTheme(theme);
             try {
                 UIManager.setLookAndFeel(materialLookAndFeel);
+                org.jdesktop.swingx.plaf.LookAndFeelAddons.contribute(theme.getMonthViewAddonAddon());
             } catch (UnsupportedLookAndFeelException e) {
                 throw new MaterialChangeThemeException("Exception generated when I change the theme\nError exception is: " + e.getLocalizedMessage());
             }
@@ -451,6 +455,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("Table[CheckBox].unchecked", theme.getUnselectedCheckBoxIconTable());
         table.put("Table[CheckBox].selectionChecked", theme.getSelectedCheckBoxIconSelectionRowTable());
         table.put("Table[CheckBox].selectionUnchecked", theme.getUnselectedCheckBoxIconSelectionRowTable());
+        table.put("Table[TextField].lineStyleType", MaterialConstants.TEXT_FIELD_STYLE_NONE);
         table.put("Table.focusCellHighlightBorder", new BorderUIResource(BorderFactory.createEmptyBorder()));
         table.put("Table.showVerticalLines", false);
         table.put("Table.showHorizontalLines", false);
@@ -559,6 +564,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("TextField.selectionForeground", theme.getSelectionForegroundTextField());
         table.put("TextField[Line].inactiveColor", theme.getInactiveColorLineTextField());
         table.put("TextField[Line].activeColor", theme.getActiveColorLineTextField());
+        table.put("TextField[Line].styleType", MaterialConstants.TEXT_FIELD_STYLE_LINE);
         table.put("TextField.border", theme.getBorderTextField());
         //table.put("TextField.margin", new InsetsUIResource(5,15,5,15));
         table.put("TextField.focusInputMap", fieldInputMap);
@@ -574,6 +580,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("PasswordField.selectionForeground", theme.getSelectionForegroundTextField());
         table.put("PasswordField[Line].inactiveColor", theme.getInactiveColorLineTextField());
         table.put("PasswordField[Line].activeColor", theme.getActiveColorLineTextField());
+        table.put("PasswordField[Line].styleType", MaterialConstants.TEXT_FIELD_STYLE_LINE);
         table.put("PasswordField.border", theme.getBorderTextField());
         table.put("PasswordField.echoChar", theme.getEchoCharPasswordField());
         table.put("PasswordField.focusInputMap", fieldInputMap);
@@ -638,6 +645,10 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("InternalFrame.titleFont", theme.getFontBold());
         table.put("InternalFrame.background", MaterialColors.LIGHT_BLUE_500);
         table.put("InternalFrame.border", MaterialBorders.DEFAULT_SHADOW_BORDER);
+        
+        table.put("InternalFrameTitlePane[Line].color", MaterialColors.GRAY_50);
+        
+        table.put("TitlePane[Button].border.toAll", false);
 
         //This is for change the TitlePane
         table.put("Material.activeCaption", theme.getMenuBackground());

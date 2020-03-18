@@ -25,6 +25,7 @@ package mdlaf.utils;
 
 import mdlaf.shadows.DropShadowBorder;
 import mdlaf.shadows.RoundedCornerBorder;
+import mdlaf.shadows.TextFieldBorder;
 import mdlaf.utils.MaterialColors;
 
 import javax.swing.BorderFactory;
@@ -64,6 +65,11 @@ public class MaterialBorders {
             throw new IllegalArgumentException("The color line is null");
         }
         return new BorderUIResource(new RoundedCornerBorder(colorLine, arch));
+    }
+
+    public static BorderUIResource textFieldBorder(int top, int left, int bottom, int right){
+        //return new BorderUIResource(BorderFactory.createEmptyBorder(top, left, bottom, right));
+        return new BorderUIResource(new TextFieldBorder(top, left, bottom, right));
     }
 }
 

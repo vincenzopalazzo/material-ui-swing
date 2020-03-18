@@ -24,6 +24,7 @@
 package mdlaf.components.password;
 
 import mdlaf.components.textfield.MaterialComponentField;
+import mdlaf.utils.MaterialConstants;
 import mdlaf.utils.MaterialDrawingUtils;
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
@@ -43,12 +44,11 @@ public class MaterialPasswordFieldUI extends MaterialComponentField{
     protected BasicPasswordFieldUI basicPasswordFieldUI = new BasicPasswordFieldUI();
 
     public MaterialPasswordFieldUI() {
-        this(true);
+        this((MaterialConstants)UIManager.get(ProprietyPrefix + "[Line].styleType"));
     }
 
-    public MaterialPasswordFieldUI(boolean drawLine) {
-        super();
-        this.drawLine = drawLine;
+    public MaterialPasswordFieldUI(MaterialConstants textFieldStyle) {
+        super(textFieldStyle);
     }
 
     public static ComponentUI createUI(JComponent c) {

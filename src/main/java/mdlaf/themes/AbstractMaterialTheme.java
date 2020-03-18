@@ -35,6 +35,8 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
 
+import org.jdesktop.swingx.plaf.AbstractComponentAddon;
+
 /**
  * @author https://github.com/vincenzopalazzo
  */
@@ -388,7 +390,9 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
     public ColorUIResource backgroundSeparator;
 
     public ColorUIResource foregroundSeparator;
-
+    
+    //JXMonthView
+    protected AbstractComponentAddon monthViewAddonAddon;
 
     // Abstract method
     public abstract void installTheme();
@@ -422,7 +426,8 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
                                         MaterialBorders.LIGHT_LINE_BORDER,
                                         BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         borderToolBar = MaterialBorders.LIGHT_LINE_BORDER;
-        borderTextField = new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 1, 2));
+        //borderTextField = new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 1, 2));
+        borderTextField = MaterialBorders.textFieldBorder(2, 2, 1, 2);
         borderTaskPane = borderPanel;
         focusCellHighlightBorder = new BorderUIResource(BorderFactory.createEmptyBorder());
         borderItemList = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),
@@ -448,7 +453,7 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
 
         borderTree = new BorderUIResource(BorderFactory.createEmptyBorder (3, 2, 3, 2));
     }
-
+    
     //getter
     public ColorUIResource getBackgroundPrimary() {
         return backgroundPrimary;
@@ -1242,7 +1247,11 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
         return fontMedium;
     }
 
-
+    //JXMonthView
+    public AbstractComponentAddon getMonthViewAddonAddon() {
+        return monthViewAddonAddon;
+    }
+    
     //Setter
 
     public void setBackgroundSeparator(ColorUIResource backgroundSeparator) {

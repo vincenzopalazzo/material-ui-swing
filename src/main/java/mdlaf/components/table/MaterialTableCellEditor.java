@@ -23,7 +23,9 @@
  */
 package mdlaf.components.table;
 
+import mdlaf.components.textfield.MaterialComponentField;
 import mdlaf.components.textfield.MaterialTextFieldUI;
+import mdlaf.utils.MaterialConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,13 +38,14 @@ public class MaterialTableCellEditor extends DefaultCellEditor {
 
     private static JTextField init() {
         JTextField textField = new JTextField();
-        textField.setUI(new MaterialTextFieldUI(false));
-        return textField;
+        return init(textField);
     }
 
     private static JTextField init(JTextField textField) {
-        textField = new JTextField();
-        textField.setUI(new MaterialTextFieldUI(false));
+        MaterialConstants lineStyle = (MaterialConstants)UIManager.get("Table[TextField].lineStyleType");
+        if(lineStyle == null)
+            lineStyle = MaterialConstants.TEXT_FIELD_STYLE_NONE; 
+        textField.setUI(new MaterialTextFieldUI(lineStyle));
         return textField;
     }
 

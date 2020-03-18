@@ -24,6 +24,7 @@
 package mdlaf.components.button;
 
 import mdlaf.animation.MaterialUIMovement;
+import mdlaf.components.titlepane.MaterialTitlePaneUI;
 import mdlaf.utils.MaterialDrawingUtils;
 import mdlaf.utils.MaterialManagerListener;
 import sun.swing.SwingUtilities2;
@@ -33,6 +34,8 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicButtonListener;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -62,12 +65,14 @@ public class MaterialButtonUI extends BasicButtonUI {
     //protected Color disabledDefaultBackground;
     //protected Color disabledDefaultForeground;
     protected Color borderColor;
+    protected Color defaultButtonborderColor;
     protected Boolean defaultButton;
     protected Boolean borderEnabled;
     protected int arch = 7;
     protected PropertyChangeListener enableButton = new MaterialListenerButtonEvent();
     //protected boolean paintedDisabled = false;
     protected boolean buttonBorderToAll = false;
+    protected boolean titlePaneButtonBorderToAll = false;
     protected boolean mouseHoverRunning = false;
 
     protected MaterialButtonMouseListener mouseListener = new MaterialButtonMouseListener();
@@ -90,8 +95,10 @@ public class MaterialButtonUI extends BasicButtonUI {
         //disabledDefaultBackground = UIManager.getColor("Button[Default].disabledBackground");
         //disabledDefaultForeground = UIManager.getColor("Button[Default].disabledForeground");
         borderColor = UIManager.getColor("Button[border].color");
+        defaultButtonborderColor = UIManager.getColor("Button[border].defaultButton.color");
         borderEnabled = UIManager.getBoolean("Button[border].enable");
         buttonBorderToAll = UIManager.getBoolean("Button[border].toAll");
+        titlePaneButtonBorderToAll = UIManager.getBoolean("TitlePane[Button].border.toAll");
         if (mouseHoverEnabled == null) {
             mouseHoverEnabled = UIManager.getBoolean("Button.mouseHoverEnable");
         }
@@ -191,10 +198,19 @@ public class MaterialButtonUI extends BasicButtonUI {
         graphics.fillRoundRect(0, 0, c.getWidth(), c.getHeight(), arch, arch);
         JButton b = (JButton) c;
         if (borderEnabled != null && borderEnabled) {
-            if (buttonBorderToAll && !b.isDefaultButton()) {
-                paintBorderButton(graphics, b);
-            } else if (b.getIcon() == null && !b.isDefaultButton()) {
-                paintBorderButton(graphics, b);
+            if(b.getParent() instanceof BasicInternalFrameTitlePane || b.getParent() instanceof MaterialTitlePaneUI) {
+                if (titlePaneButtonBorderToAll) {
+                    paintBorderButton(graphics, b);
+                } else if (b.getIcon() == null) {
+                    paintBorderButton(graphics, b);
+                }
+            }
+            else {
+                if (buttonBorderToAll && (!b.isDefaultButton() || defaultButtonborderColor != null)) {
+                    paintBorderButton(graphics, b);
+                } else if (b.getIcon() == null && (!b.isDefaultButton() || defaultButtonborderColor != null)) {
+                    paintBorderButton(graphics, b);
+                }
             }
         }
         //paintStateButton(c, g);
@@ -271,9 +287,13 @@ public class MaterialButtonUI extends BasicButtonUI {
     protected void paintBorderButton(Graphics graphics, JComponent b) {
         if (!b.isEnabled() || !borderEnabled) {
             return;
+        }
+        else if(b.getParent() instanceof BasicInternalFrameTitlePane || b.getParent() instanceof MaterialTitlePaneUI) {
+            if(!titlePaneButtonBorderToAll && ((JButton)b).getIcon() != null)
+                return;
         }else if(!buttonBorderToAll && ((JButton)b).getIcon() != null){
             return;
-        }else if(this.isDefaultButton()){
+        }else if(this.isDefaultButton() && defaultButtonborderColor == null){
             return;
         }
         Graphics2D graphics2D = (Graphics2D) graphics.create();
@@ -283,7 +303,7 @@ public class MaterialButtonUI extends BasicButtonUI {
         int w = b.getWidth() - 1;
         int h = b.getHeight() - 1;
 
-        graphics2D.setColor(borderColor);
+        graphics2D.setColor(isDefaultButton() ? defaultButtonborderColor : borderColor);
         graphics2D.drawRoundRect(0, 0, w, h, arch + 2, arch + 2);
         graphics2D.dispose();
     }

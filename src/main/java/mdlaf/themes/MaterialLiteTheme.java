@@ -29,7 +29,19 @@ import mdlaf.utils.MaterialColors;
 import mdlaf.utils.MaterialFontFactory;
 import mdlaf.utils.MaterialImageFactory;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
+
+import org.jdesktop.swingx.JXMonthView;
+import org.jdesktop.swingx.plaf.AbstractComponentAddon;
+import org.jdesktop.swingx.plaf.DefaultsList;
+import org.jdesktop.swingx.plaf.LookAndFeelAddons;
+import org.jdesktop.swingx.plaf.MonthViewAddon;
+import org.jdesktop.swingx.plaf.UIManagerExt;
 
 /**
  * @author https://github.com/vincenzopalazzo
@@ -214,6 +226,13 @@ public class MaterialLiteTheme extends AbstractMaterialTheme {
         super.foregroundSeparator = MaterialColors.GRAY_300;
     }
 
+    //JXMonthView
+    public AbstractComponentAddon getMonthViewAddonAddon() {
+        if(monthViewAddonAddon == null)
+            monthViewAddonAddon = new MaterialLiteMonthViewAddon();
+        return monthViewAddonAddon;
+    }
+    
     @Override
     public void installUIDefault(UIDefaults table) {
         super.installUIDefault(table);
@@ -224,3 +243,38 @@ public class MaterialLiteTheme extends AbstractMaterialTheme {
         return "Material Lite";
     }
 }
+
+
+class MaterialLiteMonthViewAddon extends AbstractComponentAddon {
+    public MaterialLiteMonthViewAddon() {
+       super("JXMonthView");
+   }
+
+   /**
+    * {@inheritDoc}
+    */
+   @Override
+   protected void addBasicDefaults(LookAndFeelAddons addon, DefaultsList defaults) {
+       super.addBasicDefaults(addon, defaults);
+       
+       defaults.add(JXMonthView.uiClassID, "org.jdesktop.swingx.plaf.basic.BasicMonthViewUI");
+       defaults.add("JXMonthView.background", new ColorUIResource(Color.WHITE));
+       defaults.add("JXMonthView.monthStringBackground", new ColorUIResource(138, 173, 209));
+       defaults.add("JXMonthView.monthStringForeground", new ColorUIResource(68, 68, 68));
+       defaults.add("JXMonthView.daysOfTheWeekForeground", new ColorUIResource(68, 68, 68));
+       defaults.add("JXMonthView.weekOfTheYearForeground", new ColorUIResource(68, 68, 68));
+       defaults.add("JXMonthView.unselectableDayForeground", new ColorUIResource(Color.RED));
+       defaults.add("JXMonthView.selectedBackground", new ColorUIResource(197, 220, 240));
+       defaults.add("JXMonthView.flaggedDayForeground", new ColorUIResource(Color.RED));
+       defaults.add("JXMonthView.leadingDayForeground", new ColorUIResource(Color.LIGHT_GRAY));
+       defaults.add("JXMonthView.trailingDayForeground", new ColorUIResource(Color.LIGHT_GRAY));
+       defaults.add("JXMonthView.font", UIManagerExt.getSafeFont("Button.font",
+                       new FontUIResource("Dialog", Font.PLAIN, 12)));
+       defaults.add("JXMonthView.monthDownFileName",
+               LookAndFeel.makeIcon(MonthViewAddon.class, "basic/resources/month-down.png"));
+       defaults.add("JXMonthView.monthUpFileName",
+               LookAndFeel.makeIcon(MonthViewAddon.class, "basic/resources/month-up.png"));
+       defaults.add("JXMonthView.boxPaddingX", 3);
+       defaults.add("JXMonthView.boxPaddingY", 3);
+   }
+ }

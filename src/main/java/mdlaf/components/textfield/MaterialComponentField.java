@@ -26,6 +26,9 @@ package mdlaf.components.textfield;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicTextFieldUI;
 import javax.swing.text.JTextComponent;
+
+import mdlaf.utils.MaterialConstants;
+
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -37,13 +40,13 @@ import java.beans.PropertyChangeSupport;
  * @author https://github.com/vincenzopalazzo
  */
 public abstract class MaterialComponentField extends BasicTextFieldUI {
-
     protected static final String PROPERTY_LINE_COLOR = "lineColor";
     protected static final String PROPERTY_SELECTION_COLOR = "selectionColor";
     protected static final String PROPERTY_SELECTION_TEXT_COLOR = "selectedTextColor";
     protected static final String PROPERTY_ENABLED_COMPONENT = "enabled";
+    protected static final String PROPERTY_ANCESTOR = "ancestor";
 
-    protected boolean drawLine;
+    protected MaterialConstants textFieldStyle;
     protected boolean focused;
     protected JTextComponent textComponent;
     protected Color background;
@@ -62,12 +65,14 @@ public abstract class MaterialComponentField extends BasicTextFieldUI {
     protected PropertyChangeSupport propertyChangeSupport;
 
     public MaterialComponentField() {
-        this(true);
+        this(MaterialConstants.TEXT_FIELD_STYLE_LINE);
     }
 
-    public MaterialComponentField(boolean drawLine) {
+    public MaterialComponentField(MaterialConstants textFieldStyle) {
         super();
-        this.drawLine = drawLine;
+        if(textFieldStyle == null)
+           textFieldStyle = MaterialConstants.TEXT_FIELD_STYLE_LINE;
+        this.textFieldStyle = textFieldStyle;
         this.focusListenerColorLine = new FocusListenerColorLine();
         this.propertyChangeListener = new MaterialPropertyChangeListener();
         this.propertyChangeSupport = new PropertyChangeSupport(this);
@@ -101,6 +106,16 @@ public abstract class MaterialComponentField extends BasicTextFieldUI {
         textComponent.setSelectedTextColor(getComponent().hasFocus() && getComponent().isEnabled() ? activeForeground : inactiveForeground);
         textComponent.setForeground(getComponent().hasFocus() && getComponent().isEnabled() ? activeForeground : inactiveForeground);
         textComponent.setBorder(UIManager.getBorder(getPropertyPrefix() + ".border"));
+    }
+    
+    protected void parentChanged(Component parent) {
+        if(parent instanceof JTable) {
+            MaterialConstants lineStyle = (MaterialConstants)UIManager.get("Table[TextField].lineStyleType");
+            if(lineStyle == null)
+                lineStyle = MaterialConstants.TEXT_FIELD_STYLE_NONE;
+            
+            this.textFieldStyle = lineStyle;
+        }
     }
 
     protected void logicForPropertyChange(Color newColor, boolean isForeground) {
@@ -156,21 +171,24 @@ public abstract class MaterialComponentField extends BasicTextFieldUI {
             return;
         }
         JTextComponent c = getComponent();
-
-        if (drawLine) {
+        if (getTextFieldStyle() == MaterialConstants.TEXT_FIELD_STYLE_LINE) {
             int x = c.getInsets().left;
-            int y = c.getInsets().top;
+            int y = c.getHeight();
+            if(c.getInsets().bottom > 0)
+                y -= (c.getInsets().bottom + 1);
+            else
+                y --;
+            
             int w = c.getWidth() - c.getInsets().left - c.getInsets().right;
             if(textComponent.isEnabled()){
                 graphics.setColor(colorLine);
             }else{
                 graphics.setColor(disabledBackground);
             }
-
-            graphics.fillRect(x, c.getHeight() - y, w, 1);
+            graphics.fillRect(x, y, w, 1);
         }
     }
-
+    
     protected class FocusListenerColorLine implements FocusListener {
 
         @Override
@@ -218,6 +236,27 @@ public abstract class MaterialComponentField extends BasicTextFieldUI {
                 }
                 getComponent().repaint();
             }
+            else if (pce.getPropertyName().equals(PROPERTY_ANCESTOR)) {
+                if(pce.getNewValue() != null) {
+                    parentChanged((Component)pce.getNewValue());
+                }
+            }
         }
+    }
+    
+    public MaterialConstants getTextFieldStyle() {
+       return textFieldStyle;
+    }
+    
+    public Color getDisabledBackground() {
+       return disabledBackground;
+    }
+    
+    public Color getColorLine() {
+       return colorLine;
+    }
+    
+    public Color colorLineActive() {
+       return colorLineActive;
     }
 }

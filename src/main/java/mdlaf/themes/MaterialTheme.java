@@ -30,6 +30,9 @@ import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
+
+import org.jdesktop.swingx.plaf.AbstractComponentAddon;
+
 import java.awt.*;
 
 /**
@@ -41,7 +44,7 @@ public interface MaterialTheme {
     void installTheme();
 
     void installUIDefault(UIDefaults table);
-
+    
     String getName();
 
     //Getter for global constant
@@ -478,6 +481,9 @@ public interface MaterialTheme {
     FontUIResource getFontRegular();
 
     FontUIResource getFontMedium();
+    
+    //JXMonthView
+    AbstractComponentAddon getMonthViewAddonAddon();
 
 
     //Setter
@@ -754,5 +760,4 @@ public interface MaterialTheme {
     public void setSizeDividierSplitPane(int sizeDividierSplitPane);
 
     public void setDividierBorderSplitPane(BorderUIResource dividierBorderSplitPane);
-
 }
