@@ -24,6 +24,7 @@
 package mdlaf.components.password;
 
 import mdlaf.components.textfield.MaterialComponentField;
+import mdlaf.shadows.TextFieldStyle;
 import mdlaf.utils.MaterialConstants;
 import mdlaf.utils.MaterialDrawingUtils;
 import javax.swing.*;
@@ -38,16 +39,16 @@ import java.awt.*;
  * @author https://github.com/vincenzopalazzo
  * @author https://github.com/atarw
  */
-public class MaterialPasswordFieldUI extends MaterialComponentField{
+public class MaterialPasswordFieldUI extends MaterialComponentField {
 
     protected static final String ProprietyPrefix = "PasswordField";
     protected BasicPasswordFieldUI basicPasswordFieldUI = new BasicPasswordFieldUI();
 
     public MaterialPasswordFieldUI() {
-        this((MaterialConstants)UIManager.get(ProprietyPrefix + "[Line].styleType"));
+        this((MaterialConstants.TextComponent)UIManager.get(ProprietyPrefix + "[Line].styleType"));
     }
 
-    public MaterialPasswordFieldUI(MaterialConstants textFieldStyle) {
+    public MaterialPasswordFieldUI(MaterialConstants.TextComponent textFieldStyle) {
         super(textFieldStyle);
     }
 
@@ -65,7 +66,7 @@ public class MaterialPasswordFieldUI extends MaterialComponentField{
         super.installUI(c);
         basicPasswordFieldUI.installUI(c);
         JPasswordField passwordField = (JPasswordField) c;
-        passwordField.setEchoChar((Character) UIManager.get("PasswordField.echoChar"));
+        passwordField.setEchoChar((Character) UIManager.get(getPropertyPrefix() + ".echoChar"));
         installMyDefaults(passwordField);
     }
 

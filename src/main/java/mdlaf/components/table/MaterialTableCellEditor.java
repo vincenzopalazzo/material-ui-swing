@@ -42,9 +42,9 @@ public class MaterialTableCellEditor extends DefaultCellEditor {
     }
 
     private static JTextField init(JTextField textField) {
-        MaterialConstants lineStyle = (MaterialConstants)UIManager.get("Table[TextField].lineStyleType");
+        MaterialConstants.TextComponent lineStyle = (MaterialConstants.TextComponent)UIManager.get("Table[TextField].lineStyleType");
         if(lineStyle == null)
-            lineStyle = MaterialConstants.TEXT_FIELD_STYLE_NONE; 
+            lineStyle = MaterialConstants.TextComponent.TEXT_FIELD_STYLE_NONE; 
         textField.setUI(new MaterialTextFieldUI(lineStyle));
         return textField;
     }

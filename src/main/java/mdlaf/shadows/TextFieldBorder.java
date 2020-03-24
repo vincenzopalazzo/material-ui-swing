@@ -19,7 +19,6 @@ import javax.swing.border.AbstractBorder;
 import javax.swing.plaf.TextUI;
 import javax.swing.text.JTextComponent;
 
-import mdlaf.components.textfield.MaterialComponentField;
 import mdlaf.utils.MaterialConstants;
 
 public class TextFieldBorder extends AbstractBorder {
@@ -61,14 +60,14 @@ public class TextFieldBorder extends AbstractBorder {
         if (c instanceof JTextComponent) {
             JTextComponent tf = (JTextComponent) c;
             TextUI ui = tf.getUI();
-            if (ui instanceof MaterialComponentField) {
-                MaterialComponentField mui = (MaterialComponentField) ui;
-                MaterialConstants textFieldStyle = mui.getTextFieldStyle();
+            if (ui instanceof TextFieldStyle) {
+            	TextFieldStyle mui = (TextFieldStyle) ui;
+                MaterialConstants.TextComponent textFieldStyle = mui.getTextFieldStyle();
                 if (textFieldStyle == null)
                     return;
 
-                if (textFieldStyle == MaterialConstants.TEXT_FIELD_STYLE_NONE
-                        || textFieldStyle == MaterialConstants.TEXT_FIELD_STYLE_LINE)
+                if (textFieldStyle == MaterialConstants.TextComponent.TEXT_FIELD_STYLE_NONE
+                        || textFieldStyle == MaterialConstants.TextComponent.TEXT_FIELD_STYLE_LINE)
                     return;
 
                 Color disabledBackground = mui.getDisabledBackground();
@@ -78,7 +77,7 @@ public class TextFieldBorder extends AbstractBorder {
                 g2.setStroke(new BasicStroke(withBorder));
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-                if (textFieldStyle == MaterialConstants.TEXT_FIELD_STYLE_OUTLINE) {
+                if (textFieldStyle == MaterialConstants.TextComponent.TEXT_FIELD_STYLE_OUTLINE) {
                     int r = arch;
                     int w = width - 1;
                     int h = height - 1;
@@ -101,7 +100,7 @@ public class TextFieldBorder extends AbstractBorder {
                     else
                         g2.setPaint(disabledBackground);
                     g2.draw(round);
-                } else if (textFieldStyle == MaterialConstants.TEXT_FIELD_STYLE_BORDER_LINE) {
+                } else if (textFieldStyle == MaterialConstants.TextComponent.TEXT_FIELD_STYLE_BORDER_LINE) {
                     if (tf.isEnabled())
                         g2.setPaint(colorLine);
                     else

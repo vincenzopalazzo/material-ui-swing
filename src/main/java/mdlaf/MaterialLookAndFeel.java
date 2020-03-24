@@ -241,6 +241,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("OptionPaneUI", optionPaneUI);
         table.put("SplitPaneUI", splitPaneUI);
         table.put("ColorChooserUI", colorChooserUI);
+        
         // java swingx
         table.put("swingx/TaskPaneUI", taskPaneUI);
     }
@@ -455,7 +456,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("Table[CheckBox].unchecked", theme.getUnselectedCheckBoxIconTable());
         table.put("Table[CheckBox].selectionChecked", theme.getSelectedCheckBoxIconSelectionRowTable());
         table.put("Table[CheckBox].selectionUnchecked", theme.getUnselectedCheckBoxIconSelectionRowTable());
-        table.put("Table[TextField].lineStyleType", MaterialConstants.TEXT_FIELD_STYLE_NONE);
+        table.put("Table[TextField].lineStyleType", MaterialConstants.TextComponent.TEXT_FIELD_STYLE_NONE);
         table.put("Table.focusCellHighlightBorder", new BorderUIResource(BorderFactory.createEmptyBorder()));
         table.put("Table.showVerticalLines", false);
         table.put("Table.showHorizontalLines", false);
@@ -475,6 +476,9 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("TextArea.foreground", theme.getTextColor());
         table.put("TextArea.font", theme.getFontBold());
         table.put("TextArea.caretForeground", theme.getTextColor());
+        table.put("TextArea[Line].inactiveColor", theme.getInactiveColorLineTextField());
+        table.put("TextArea[Line].activeColor", theme.getActiveColorLineTextField());
+        table.put("TextArea[Line].styleType", MaterialConstants.TextComponent.TEXT_FIELD_STYLE_NONE);
 
         table.put("ToggleButton.border", BorderFactory.createEmptyBorder());
         table.put("ToggleButton.font", theme.getFontRegular());
@@ -528,7 +532,8 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("CheckBoxMenuItem.checkIcon", theme.getUnselectedCheckBoxIconTable());
         table.put("CheckBoxMenuItem.selectedCheckIcon", theme.getSelectedCheckBoxIconTable());
 
-        table.put("TextPane.border", theme.getBorderPanel());
+        //table.put("TextPane.border", theme.getBorderPanel());
+        table.put("TextPane.border", theme.getBorderTextField());
         table.put("TextPane.background", theme.getBackgroundTextField());
         table.put("TextPane.foreground", theme.getTextColor());
         table.put("TextPane.selectionBackground", theme.getHighlightBackgroundPrimary());
@@ -536,8 +541,12 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("TextPane.font", theme.getFontItalic());
         table.put("TextPane.focusInputMap", multilineInputMap);
         table.put("TextPane.caretForeground", theme.getTextColor());
+        table.put("TextPane[Line].inactiveColor", theme.getInactiveColorLineTextField());
+        table.put("TextPane[Line].activeColor", theme.getActiveColorLineTextField());
+        table.put("TextPane[Line].styleType", MaterialConstants.TextComponent.TEXT_FIELD_STYLE_NONE);
 
-        table.put("EditorPane.border", theme.getBorderPanel());
+        //table.put("EditorPane.border", theme.getBorderPanel());
+        table.put("EditorPane.border", theme.getBorderTextField());
         table.put("EditorPane.background", theme.getBackgroundTextField());
         table.put("EditorPane.foreground", theme.getTextColor());
         table.put("EditorPane.selectionBackground", theme.getSelectionBackgroundTextField());
@@ -564,7 +573,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("TextField.selectionForeground", theme.getSelectionForegroundTextField());
         table.put("TextField[Line].inactiveColor", theme.getInactiveColorLineTextField());
         table.put("TextField[Line].activeColor", theme.getActiveColorLineTextField());
-        table.put("TextField[Line].styleType", MaterialConstants.TEXT_FIELD_STYLE_LINE);
+        table.put("TextField[Line].styleType", MaterialConstants.TextComponent.TEXT_FIELD_STYLE_LINE);
         table.put("TextField.border", theme.getBorderTextField());
         //table.put("TextField.margin", new InsetsUIResource(5,15,5,15));
         table.put("TextField.focusInputMap", fieldInputMap);
@@ -580,7 +589,9 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("PasswordField.selectionForeground", theme.getSelectionForegroundTextField());
         table.put("PasswordField[Line].inactiveColor", theme.getInactiveColorLineTextField());
         table.put("PasswordField[Line].activeColor", theme.getActiveColorLineTextField());
-        table.put("PasswordField[Line].styleType", MaterialConstants.TEXT_FIELD_STYLE_LINE);
+        table.put("PasswordField[Line].styleType", MaterialConstants.TextComponent.TEXT_FIELD_STYLE_LINE);
+        table.put("PasswordField[Line].inactiveColor", theme.getInactiveColorLineTextField());
+        table.put("PasswordField[Line].activeColor", theme.getActiveColorLineTextField());
         table.put("PasswordField.border", theme.getBorderTextField());
         table.put("PasswordField.echoChar", theme.getEchoCharPasswordField());
         table.put("PasswordField.focusInputMap", fieldInputMap);
@@ -611,6 +622,9 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("FormattedTextField.selectionForeground", theme.getSelectionForegroundTextField());
         table.put("FormattedTextField.border", theme.getBorderTextField());
         table.put("FormattedTextField.caretForeground", theme.getTextColor());
+        table.put("FormattedTextField[Line].inactiveColor", theme.getInactiveColorLineTextField());
+        table.put("FormattedTextField[Line].activeColor", theme.getActiveColorLineTextField());
+        table.put("FormattedTextField[Line].styleType", MaterialConstants.TextComponent.TEXT_FIELD_STYLE_LINE);
 
         table.put("List.background", theme.getBackgroundPrimary());
         table.put("List.foreground", theme.getTextColor());
@@ -698,6 +712,9 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("ColorChooser.background", theme.getBackgroundPrimary());
         table.put("ColorChooser.foreground", theme.getTextColor());
         table.put("ColorChooser.border", theme.getBorderPanel());
+        
+        
+        table.put("Viewport.background", theme.getBackgroundPrimary());
 
         theme.installUIDefault(table);
     }

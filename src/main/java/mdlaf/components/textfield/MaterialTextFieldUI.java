@@ -39,10 +39,10 @@ public class MaterialTextFieldUI extends MaterialComponentField {
     protected static final String ProprietyPrefix = "TextField";
 
     public MaterialTextFieldUI() {
-        this((MaterialConstants)UIManager.get(ProprietyPrefix + "[Line].styleType"));
+        this((MaterialConstants.TextComponent)UIManager.get(ProprietyPrefix + "[Line].styleType"));
     }
 
-    public MaterialTextFieldUI(MaterialConstants textFieldStyle) {
+    public MaterialTextFieldUI(MaterialConstants.TextComponent textFieldStyle) {
         super(textFieldStyle);
     }
 

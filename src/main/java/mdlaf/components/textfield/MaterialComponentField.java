@@ -27,6 +27,7 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicTextFieldUI;
 import javax.swing.text.JTextComponent;
 
+import mdlaf.shadows.TextFieldStyle;
 import mdlaf.utils.MaterialConstants;
 
 import java.awt.*;
@@ -39,14 +40,14 @@ import java.beans.PropertyChangeSupport;
 /**
  * @author https://github.com/vincenzopalazzo
  */
-public abstract class MaterialComponentField extends BasicTextFieldUI {
+public abstract class MaterialComponentField extends BasicTextFieldUI implements TextFieldStyle {
     protected static final String PROPERTY_LINE_COLOR = "lineColor";
     protected static final String PROPERTY_SELECTION_COLOR = "selectionColor";
     protected static final String PROPERTY_SELECTION_TEXT_COLOR = "selectedTextColor";
     protected static final String PROPERTY_ENABLED_COMPONENT = "enabled";
     protected static final String PROPERTY_ANCESTOR = "ancestor";
 
-    protected MaterialConstants textFieldStyle;
+    protected MaterialConstants.TextComponent textFieldStyle;
     protected boolean focused;
     protected JTextComponent textComponent;
     protected Color background;
@@ -65,13 +66,13 @@ public abstract class MaterialComponentField extends BasicTextFieldUI {
     protected PropertyChangeSupport propertyChangeSupport;
 
     public MaterialComponentField() {
-        this(MaterialConstants.TEXT_FIELD_STYLE_LINE);
+        this(MaterialConstants.TextComponent.TEXT_FIELD_STYLE_LINE);
     }
 
-    public MaterialComponentField(MaterialConstants textFieldStyle) {
+    public MaterialComponentField(MaterialConstants.TextComponent textFieldStyle) {
         super();
         if(textFieldStyle == null)
-           textFieldStyle = MaterialConstants.TEXT_FIELD_STYLE_LINE;
+           textFieldStyle = MaterialConstants.TextComponent.TEXT_FIELD_STYLE_LINE;
         this.textFieldStyle = textFieldStyle;
         this.focusListenerColorLine = new FocusListenerColorLine();
         this.propertyChangeListener = new MaterialPropertyChangeListener();
@@ -110,9 +111,9 @@ public abstract class MaterialComponentField extends BasicTextFieldUI {
     
     protected void parentChanged(Component parent) {
         if(parent instanceof JTable) {
-            MaterialConstants lineStyle = (MaterialConstants)UIManager.get("Table[TextField].lineStyleType");
+            MaterialConstants.TextComponent lineStyle = (MaterialConstants.TextComponent)UIManager.get("Table[TextField].lineStyleType");
             if(lineStyle == null)
-                lineStyle = MaterialConstants.TEXT_FIELD_STYLE_NONE;
+                lineStyle = MaterialConstants.TextComponent.TEXT_FIELD_STYLE_NONE;
             
             this.textFieldStyle = lineStyle;
         }
@@ -171,7 +172,7 @@ public abstract class MaterialComponentField extends BasicTextFieldUI {
             return;
         }
         JTextComponent c = getComponent();
-        if (getTextFieldStyle() == MaterialConstants.TEXT_FIELD_STYLE_LINE) {
+        if (getTextFieldStyle() == MaterialConstants.TextComponent.TEXT_FIELD_STYLE_LINE) {
             int x = c.getInsets().left;
             int y = c.getHeight();
             if(c.getInsets().bottom > 0)
@@ -244,14 +245,17 @@ public abstract class MaterialComponentField extends BasicTextFieldUI {
         }
     }
     
-    public MaterialConstants getTextFieldStyle() {
+    @Override
+    public MaterialConstants.TextComponent getTextFieldStyle() {
        return textFieldStyle;
     }
     
+    @Override
     public Color getDisabledBackground() {
        return disabledBackground;
     }
     
+    @Override
     public Color getColorLine() {
        return colorLine;
     }

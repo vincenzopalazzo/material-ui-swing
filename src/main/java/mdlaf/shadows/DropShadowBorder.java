@@ -1,6 +1,6 @@
 package mdlaf.shadows;
 /*
- * $Id: mdlaf.shadows.DropShadowBorder.java,v 1.10 2005/10/13 17:19:34 rbair Exp $
+ * $Id: DropShadowBorder.java,v 1.1 2020/03/18 13:58:31 jarek Exp $
  *
  * Copyright 2004 Sun Microsystems, Inc., 4150 Network Circle,
  * Santa Clara, California 95054, U.S.A. All rights reserved.
