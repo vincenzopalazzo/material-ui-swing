@@ -74,8 +74,10 @@ public class JMarsDarkTheme extends AbstractMaterialTheme {
                 MaterialColors.WHITE
         );
 
-        this.selectedRadioButtonIcon = MaterialImageFactory.getInstance().getImage(MaterialImageFactory.RADIO_BUTTON_WHITE_ON);
-        this.unselectedRadioButtonIcon = MaterialImageFactory.getInstance().getImage(MaterialImageFactory.RADIO_BUTTON_WHITE_OFF);
+        //this.selectedRadioButtonIcon = MaterialImageFactory.getInstance().getImage(MaterialImageFactory.RADIO_BUTTON_WHITE_ON);
+        //this.unselectedRadioButtonIcon = MaterialImageFactory.getInstance().getImage(MaterialImageFactory.RADIO_BUTTON_WHITE_OFF);
+        this.selectedRadioButtonIcon = MaterialImageFactory.getInstance().getImage(GoogleMaterialDesignIcons.RADIO_BUTTON_CHECKED, MaterialColors.WHITE);
+        this.unselectedRadioButtonIcon = MaterialImageFactory.getInstance().getImage(GoogleMaterialDesignIcons.RADIO_BUTTON_UNCHECKED, MaterialColors.WHITE);
 
         this.selectedCheckBoxIconTable = MaterialImageFactory.getInstance().getImage(
                 GoogleMaterialDesignIcons.CHECK_BOX,
@@ -134,7 +136,11 @@ public class JMarsDarkTheme extends AbstractMaterialTheme {
         this.unselectedIconToggleButton = MaterialImageFactory.getInstance().getImage(MaterialImageFactory.TOGGLE_BUTTON_OFF_WHITE);
         this.selectedIconToggleButton = MaterialImageFactory.getInstance().getImage(MaterialImageFactory.TOGGLE_BUTTON_ON_WHITE);
 
-        super.iconCloseTitlePane = MaterialImageFactory.getInstance().getImage(MaterialImageFactory.CLOSE_WINDOWS_WHITE);
+        //this.iconCloseTitlePane = MaterialImageFactory.getInstance().getImage(MaterialImageFactory.CLOSE_WINDOWS_WHITE);
+        this.iconCloseTitlePane = MaterialImageFactory.getInstance().getImage(GoogleMaterialDesignIcons.CLOSE, MaterialColors.WHITE);
+        this.iconMaximizeTitlePane = MaterialImageFactory.getInstance().getImage(GoogleMaterialDesignIcons.FULLSCREEN, MaterialColors.WHITE);
+        this.iconMinimizeTitlePane = MaterialImageFactory.getInstance().getImage(GoogleMaterialDesignIcons.FULLSCREEN_EXIT, MaterialColors.WHITE);
+        this.iconIconifyTitlePane = MaterialImageFactory.getInstance().getImage(GoogleMaterialDesignIcons.CALL_RECEIVED, MaterialColors.WHITE);
 
         super.leafIconTree = MaterialImageFactory.getInstance().getImage(
                 MaterialImageFactory.BLANK

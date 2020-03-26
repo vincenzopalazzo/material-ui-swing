@@ -472,6 +472,9 @@ public interface MaterialTheme {
     //---------------------------------------------------
     //Proprieties TitleBorder
     ImageIconUIResource getIconCloseTitlePane();
+    ImageIconUIResource getIconMaximizeTitlePane();
+	ImageIconUIResource getIconMinimizeTitlePane();
+	ImageIconUIResource getIconIconifyTitlePane();
 
     //All type of font supported to the theme
     FontUIResource getFontBold();

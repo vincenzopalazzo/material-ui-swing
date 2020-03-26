@@ -27,6 +27,7 @@ package mdlaf.themes;
 import mdlaf.components.menu.MaterialMenuArrowIcon;
 import mdlaf.utils.MaterialBorders;
 import mdlaf.utils.MaterialColors;
+import mdlaf.utils.MaterialImageFactory;
 import sun.swing.ImageIconUIResource;
 
 import javax.swing.*;
@@ -36,6 +37,8 @@ import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
 
 import org.jdesktop.swingx.plaf.AbstractComponentAddon;
+
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 
 /**
  * @author https://github.com/vincenzopalazzo
@@ -373,6 +376,9 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
     //---------------------------------------------------
     //Proprieties TitlePane
     protected ImageIconUIResource iconCloseTitlePane;
+    protected ImageIconUIResource iconMaximizeTitlePane;
+    protected ImageIconUIResource iconMinimizeTitlePane;
+    protected ImageIconUIResource iconIconifyTitlePane;
 
     //---------------------------------------------------
     //All type of font supported to the look and feel
@@ -1229,8 +1235,20 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
     public ImageIconUIResource getIconCloseTitlePane() {
         return iconCloseTitlePane;
     }
+    
+    public ImageIconUIResource getIconMaximizeTitlePane() {
+		return iconMaximizeTitlePane;
+	}
 
-    //get fonts
+	public ImageIconUIResource getIconMinimizeTitlePane() {
+		return iconMinimizeTitlePane;
+	}
+
+	public ImageIconUIResource getIconIconifyTitlePane() {
+		return iconIconifyTitlePane;
+	}
+
+	//get fonts
     public FontUIResource getFontBold() {
         return fontBold;
     }

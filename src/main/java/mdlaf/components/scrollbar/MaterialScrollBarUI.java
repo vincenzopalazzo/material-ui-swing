@@ -25,12 +25,16 @@ package mdlaf.components.scrollbar;
 
 import mdlaf.animation.MaterialUIMovement;
 import mdlaf.components.button.MaterialButtonUI;
+import mdlaf.utils.MaterialColors;
 import mdlaf.utils.MaterialDrawingUtils;
 import mdlaf.utils.MaterialImageFactory;
 import mdlaf.utils.MaterialManagerListener;
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+
 import java.awt.*;
 
 /**
@@ -43,7 +47,7 @@ public class MaterialScrollBarUI extends BasicScrollBarUI {
 	public static ComponentUI createUI (JComponent c) {
 		return new MaterialScrollBarUI ();
 	}
-
+	
 	@Override
 	public void paint (Graphics g, JComponent c) {
 		super.paint (MaterialDrawingUtils.getAliasedGraphics (g), c);
@@ -84,11 +88,14 @@ public class MaterialScrollBarUI extends BasicScrollBarUI {
 		if(button == null){
 			throw new IllegalArgumentException("Input null");
 		}
+		
 		if (orientation == SwingConstants.NORTH){
-			button.setIcon(MaterialImageFactory.getInstance().getImage(MaterialImageFactory.UP_ARROW));
+			button.setIcon(MaterialImageFactory.getInstance().getImage(GoogleMaterialDesignIcons.ARROW_DROP_UP, MaterialColors.BLACK));
+			//button.setIcon(MaterialImageFactory.getInstance().getImage(MaterialImageFactory.UP_ARROW));
 			return;
 		}else if(orientation == SwingConstants.SOUTH){
-			button.setIcon(MaterialImageFactory.getInstance().getImage(MaterialImageFactory.DOWN_ARROW));
+			//button.setIcon(MaterialImageFactory.getInstance().getImage(MaterialImageFactory.DOWN_ARROW));
+			button.setIcon(MaterialImageFactory.getInstance().getImage(GoogleMaterialDesignIcons.ARROW_DROP_DOWN, MaterialColors.BLACK));
 			return;
 		}else if(orientation == SwingConstants.EAST){
 			button.setIcon(MaterialImageFactory.getInstance().getImage(MaterialImageFactory.RIGHT_ARROW));

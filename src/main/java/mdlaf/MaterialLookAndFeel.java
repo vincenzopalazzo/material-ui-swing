@@ -37,6 +37,7 @@ import javax.swing.plaf.basic.BasicLookAndFeel;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.DefaultEditorKit;
 
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import mdlaf.components.button.MaterialButtonUI;
 import mdlaf.components.checkbox.MaterialCheckBoxUI;
 import mdlaf.components.checkboxmenuitem.MaterialCheckBoxMenuItemUI;
@@ -648,10 +649,13 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
 
         //TODO not supported yet
         //TODO exist an bug inside the icon
-        table.put("InternalFrame.maximizeIcon", MaterialImageFactory.getInstance().getImage(MaterialImageFactory.MAXIMIZE_WINDOWS_WHITE));
-        table.put("InternalFrame.minimizeIcon", MaterialImageFactory.getInstance().getImage(MaterialImageFactory.MINIMIZE_WINDOWS_WHITE));
+        //table.put("InternalFrame.maximizeIcon", MaterialImageFactory.getInstance().getImage(MaterialImageFactory.MAXIMIZE_WINDOWS_WHITE));
+        table.put("InternalFrame.maximizeIcon", theme.getIconMaximizeTitlePane());
+        //table.put("InternalFrame.minimizeIcon", MaterialImageFactory.getInstance().getImage(MaterialImageFactory.MINIMIZE_WINDOWS_WHITE));
+        table.put("InternalFrame.minimizeIcon", theme.getIconMinimizeTitlePane());
         table.put("InternalFrame.closeIcon", theme.getIconCloseTitlePane());
-        table.put("InternalFrame.iconifyIcon", MaterialImageFactory.getInstance().getImage(MaterialImageFactory.ICONIFY_WINDOWS_WHITE));
+        table.put("InternalFrame.iconifyIcon", theme.getIconIconifyTitlePane());
+        //table.put("InternalFrame.iconifyIcon", MaterialImageFactory.getInstance().getImage(MaterialImageFactory.ICONIFY_WINDOWS_WHITE));
         table.put("InternalFrame.activeTitleBackground", MaterialColors.COSMO_BLACK);
         table.put("InternalFrame.activeTitleForeground", MaterialColors.BLACK);
         table.put("InternalFrame.inactiveTitleBackground", MaterialColors.COSMO_BLACK);
@@ -677,10 +681,12 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
         table.put("OptionPane.border", BorderFactory.createEmptyBorder());
         table.put("OptionPane.font", theme.getFontRegular());
         table.put("OptionPane.enableIcon", theme.getEnableIconOptionPane());
+        //not used OptionPaneUI.
         table.put("OptionPaneUI.warningIcon", theme.getWarningIconOptionPane());
         table.put("OptionPaneUI.errorIcon", theme.getErrorIconIconOptionPane());
         table.put("OptionPaneUI.questionIcon", theme.getQuestionIconOptionPane());
         table.put("OptionPaneUI.informationIcon", theme.getInformationIconOptionPane());
+        
         table.put("OptionPane.errorDialog.titlePane.background", theme.getBackgroundPrimary());
         table.put("OptionPane.errorDialog.titlePane.foreground", theme.getTextColor());
         table.put("OptionPane.errorDialog.titlePane.shadow", MaterialColors.COSMO_STRONG_GRAY);
