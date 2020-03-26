@@ -63,6 +63,7 @@ public class MaterialUISwingDemo {
                     JFrame.setDefaultLookAndFeelDecorated(false);
                     MaterialLookAndFeel material = new MaterialLookAndFeel(new MaterialLiteTheme());
                     UIManager.setLookAndFeel(material);
+                    org.jdesktop.swingx.plaf.LookAndFeelAddons.contribute(material.getTheme().getMonthViewAddonAddon());
 
                     /* DEMO */
                     JFrame frame = new JFrame("Material Design UI for Swing by atharva washimkar ♥");

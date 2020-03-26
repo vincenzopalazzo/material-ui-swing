@@ -29,6 +29,8 @@ import jiconfont.swing.IconFontSwing;
 import sun.swing.ImageIconUIResource;
 
 import javax.imageio.ImageIO;
+import javax.swing.UIManager;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -117,6 +119,15 @@ public class MaterialImageFactory{
     public static final String TOGGLE_BUTTON_OFF_WHITE = "white/toggle_off";
 
     private Map<String, ImageIconUIResource> cacheImage = new HashMap<>();
+    
+    private int getStandardIconSize() {
+    	int size = UIManager.getInt("Icon.customSize");
+    	if(size <= 0)
+    		size = UIManager.getInt("Icon.size");
+    	if(size < 1)
+    		size = 20;
+    	return size;
+    }
 
     public static MaterialImageFactory getInstance() {
         if (SINGLETON == null) {
@@ -197,10 +208,10 @@ public class MaterialImageFactory{
     }
 
     public ImageIconUIResource getImage(IconCode iconCode){
-        return getImage(iconCode, 20, null);
+        return getImage(iconCode, getStandardIconSize(), null);
     }
 
     public ImageIconUIResource getImage(IconCode iconCode, Color color){
-        return getImage(iconCode, 20, color);
+        return getImage(iconCode, getStandardIconSize(), color);
     }
 }

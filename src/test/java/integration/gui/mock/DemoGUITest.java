@@ -48,8 +48,9 @@ public class DemoGUITest extends JFrame {
 
     static {
         try {
-            UIManager.setLookAndFeel(new MaterialLookAndFeel(new JMarsDarkTheme()));
-
+            JMarsDarkTheme theme = new JMarsDarkTheme();
+            UIManager.setLookAndFeel(new MaterialLookAndFeel(theme));
+            org.jdesktop.swingx.plaf.LookAndFeelAddons.contribute(theme.getMonthViewAddonAddon());
             UIManager.put("Button.mouseHoverEnable", true); //Because the test are more difficulte with effect mouse hover
             JDialog.setDefaultLookAndFeelDecorated(true);
             JFrame.setDefaultLookAndFeelDecorated(false); //not support yet
@@ -499,6 +500,10 @@ public class DemoGUITest extends JFrame {
         try {
             // UIManager.getLookAndFeel().uninitialize();
             UIManager.setLookAndFeel(lookAndFeel);
+            if(lookAndFeel instanceof MaterialLookAndFeel) {
+                org.jdesktop.swingx.plaf.LookAndFeelAddons.contribute(((MaterialLookAndFeel)lookAndFeel).getTheme().getMonthViewAddonAddon());
+            }
+            
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }

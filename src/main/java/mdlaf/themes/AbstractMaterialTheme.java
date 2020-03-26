@@ -27,6 +27,7 @@ package mdlaf.themes;
 import mdlaf.components.menu.MaterialMenuArrowIcon;
 import mdlaf.utils.MaterialBorders;
 import mdlaf.utils.MaterialColors;
+import mdlaf.utils.MaterialImageFactory;
 import sun.swing.ImageIconUIResource;
 
 import javax.swing.*;
@@ -34,6 +35,10 @@ import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
+
+import org.jdesktop.swingx.plaf.AbstractComponentAddon;
+
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 
 /**
  * @author https://github.com/vincenzopalazzo
@@ -371,6 +376,9 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
     //---------------------------------------------------
     //Proprieties TitlePane
     protected ImageIconUIResource iconCloseTitlePane;
+    protected ImageIconUIResource iconMaximizeTitlePane;
+    protected ImageIconUIResource iconMinimizeTitlePane;
+    protected ImageIconUIResource iconIconifyTitlePane;
 
     //---------------------------------------------------
     //All type of font supported to the look and feel
@@ -388,7 +396,9 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
     public ColorUIResource backgroundSeparator;
 
     public ColorUIResource foregroundSeparator;
-
+    
+    //JXMonthView
+    protected AbstractComponentAddon monthViewAddonAddon;
 
     // Abstract method
     public abstract void installTheme();
@@ -422,7 +432,8 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
                                         MaterialBorders.LIGHT_LINE_BORDER,
                                         BorderFactory.createEmptyBorder(5, 5, 5, 5)));
         borderToolBar = MaterialBorders.LIGHT_LINE_BORDER;
-        borderTextField = new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 1, 2));
+        //borderTextField = new BorderUIResource(BorderFactory.createEmptyBorder(2, 2, 1, 2));
+        borderTextField = MaterialBorders.textFieldBorder(2, 2, 1, 2);
         borderTaskPane = borderPanel;
         focusCellHighlightBorder = new BorderUIResource(BorderFactory.createEmptyBorder());
         borderItemList = new BorderUIResource(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(),
@@ -448,7 +459,7 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
 
         borderTree = new BorderUIResource(BorderFactory.createEmptyBorder (3, 2, 3, 2));
     }
-
+    
     //getter
     public ColorUIResource getBackgroundPrimary() {
         return backgroundPrimary;
@@ -1224,8 +1235,20 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
     public ImageIconUIResource getIconCloseTitlePane() {
         return iconCloseTitlePane;
     }
+    
+    public ImageIconUIResource getIconMaximizeTitlePane() {
+		return iconMaximizeTitlePane;
+	}
 
-    //get fonts
+	public ImageIconUIResource getIconMinimizeTitlePane() {
+		return iconMinimizeTitlePane;
+	}
+
+	public ImageIconUIResource getIconIconifyTitlePane() {
+		return iconIconifyTitlePane;
+	}
+
+	//get fonts
     public FontUIResource getFontBold() {
         return fontBold;
     }
@@ -1242,7 +1265,11 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
         return fontMedium;
     }
 
-
+    //JXMonthView
+    public AbstractComponentAddon getMonthViewAddonAddon() {
+        return monthViewAddonAddon;
+    }
+    
     //Setter
 
     public void setBackgroundSeparator(ColorUIResource backgroundSeparator) {

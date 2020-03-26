@@ -59,7 +59,10 @@ public class MaterialInternalFrameTitlePane extends BasicInternalFrameTitlePane 
             bottom = UIManager.getColor("InternalFrameTitlePane.selected.borderColorBottom");
         }
 
-        g.setColor(MaterialColors.GRAY_50);
+        Color line = UIManager.getColor("InternalFrameTitlePane[Line].color");
+        if(line == null)
+            line = MaterialColors.GRAY_50;
+        g.setColor(line);
         g.drawLine(2, 0, w, 0);
         g.setColor(left);
         g.drawLine(0, 1, 0, h);
