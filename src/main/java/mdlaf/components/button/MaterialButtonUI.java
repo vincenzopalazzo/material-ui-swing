@@ -131,8 +131,6 @@ public class MaterialButtonUI extends BasicButtonUI {
         button.setBackground(null);
         button.setForeground(null);
         button.setCursor(null);
-
-        MaterialManagerListener.removeAllMaterialMouseListener(button);
     }
 
     @Override
@@ -268,6 +266,7 @@ public class MaterialButtonUI extends BasicButtonUI {
         b.removePropertyChangeListener(enableButton);
         super.uninstallListeners(b);
         b.removeMouseListener(mouseListener);
+        MaterialManagerListener.removeAllMaterialMouseListener(button);
     }
 
     protected void paintFocusRing(Graphics g, JButton b) {
