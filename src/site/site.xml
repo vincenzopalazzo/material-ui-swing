@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.6.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.6.0 http://maven.apache.org/xsd/decoration-1.6.0.xsd">
+
+    <version position="right" />
+
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.9</version>
+    </skin>
+
+    <body>
+        <menu name="Overview">
+            <item name="Introduction" href="index.html" />
+            <item name="Dev Wiki" href="https://github.com/vincenzopalazzo/material-ui-swing/wiki" />
+            <item name="Javadoc" href="https://vincenzopalazzo.github.io/material-ui-swing/" />
+            <item name="Download" href="https://github.com/vincenzopalazzo/material-ui-swing/releases" />
+        </menu>
+        <menu name="Demos">
+            <item name="Basic" href="https://github.com/vincenzopalazzo/material-ui-swing/tree/development/demos" />
+        </menu>
+        <menu ref="reports" />
+    </body>
+</project>
