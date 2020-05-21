@@ -53,15 +53,30 @@ allprojects {
 }
 
 jar {
-    archiveBaseName = project.name + '-' + VERSION
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+	archiveVersion = VERSION
+
 	inputs.property("moduleName", MODULE_NAME)
 
 	manifest {
 		attributes  'Automatic-Module-Name': MODULE_NAME
 	}
+
+}
+
+task jarAllDeps(type: Jar) {
+	archiveVersion = VERSION
+	archiveClassifier = 'all-deps'
+
+	from {
+		configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+	}
+	with jar
+}
+
+jar.finalizedBy(jarAllDeps)
+
+artifacts {
+	archives jarAllDeps
 }
 
 uploadArchives.onlyIf { property('RELEASE_ENABLE') == 'true' }
