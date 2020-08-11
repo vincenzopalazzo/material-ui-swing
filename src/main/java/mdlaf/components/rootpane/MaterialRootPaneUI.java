@@ -741,7 +741,6 @@ public class MaterialRootPaneUI extends BasicRootPaneUI {
                     else
                         w.setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
                 } else if(ep.y <= i.top + resizeCornerSize) {
-                    System.err.println(ep.y + "|" + i.top + "|" + ev.getY());
                     if(ep.x < resizeCornerSize + i.left)
                         w.setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
                     else if(ep.x > w.getWidth() - resizeCornerSize - i.right)
