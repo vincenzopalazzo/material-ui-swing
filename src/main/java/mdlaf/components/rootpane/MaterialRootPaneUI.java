@@ -33,6 +33,7 @@ import javax.swing.plaf.basic.BasicRootPaneUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
+import java.security.PrivilegedExceptionAction;
 
 /**
  * @author Terry Kellerman
@@ -89,6 +90,8 @@ public class MaterialRootPaneUI extends BasicRootPaneUI {
     }
 
     public void dragFrame(Window w, int newX, int newY) {
+        System.out.println("Windows object: $s".format(w.toString()));
+        System.out.println(String.format("Dragging to new Position x=%d, y=%d", newX, newY));
         setBoundsForFrame(w, newX, newY, w.getWidth(), w.getHeight());
     }
 
@@ -108,6 +111,7 @@ public class MaterialRootPaneUI extends BasicRootPaneUI {
      * @param newHeight the new height
      */
     public void resizeFrame(Window f, int newX, int newY, int newWidth, int newHeight) {
+        System.out.println(String.format("Resize with new dimension newX=%d, newY=%d, newWidth=%d, newHeight=%d", newX, newY, newWidth, newHeight));
         setBoundsForFrame(f, newX, newY, newWidth, newHeight);
     }
 
@@ -772,12 +776,11 @@ public class MaterialRootPaneUI extends BasicRootPaneUI {
             Window w = (Window)e.getSource();
             Point p = SwingUtilities.convertPoint((Component)e.getSource(),
                     e.getX(), e.getY(), null);
-            int deltaX = _x - p.x;
-            int deltaY = _y - p.y;
+            int deltaX = absoluteX - p.x;
+            int deltaY = absoluteY - p.y;
             Dimension min = w.getMinimumSize();
             Dimension max = w.getMaximumSize();
             int newX, newY, newW, newH;
-            Insets windows = window.getInsets();
 
 
             boolean resizable = false;
