@@ -27,8 +27,6 @@ package mdlaf.components.textfield;
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 
-import mdlaf.utils.MaterialDrawingUtils;
-
 import java.awt.*;
 
 /**
@@ -98,9 +96,8 @@ public class MaterialTextFieldUI extends MaterialComponentField {
 
     @Override
     public void paintSafely(Graphics g) {
-        Graphics ag = MaterialDrawingUtils.getAliasedGraphics(g);
-        super.paintSafely(ag);
-        paintLine(ag);
-        changeColorOnFocus(ag);
+        super.paintSafely(g);
+        paintLine(g);
+        changeColorOnFocus(g);
     }
 }
