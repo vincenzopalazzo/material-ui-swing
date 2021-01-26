@@ -26,42 +26,43 @@ package mdlaf.utils;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author https://github.com/vincenzopalazzo
- * @author https://github.com/atarw
  */
 public class MaterialDrawingUtils {
+
+    public static final boolean MAC_USE_QUARTZ = Boolean.getBoolean( "apple.awt.graphics.UseQuartz" );
+    private static HashMap<RenderingHints.Key, Object> defaultHints;
 
     static {
         System.setProperty("awt.useSystemAAFontSettings", "on");
         System.setProperty("swing.aatext", "true");
         System.setProperty("sun.java2d.xrender", "true");
+        defaultHints = new HashMap<>();
+        Object value = MAC_USE_QUARTZ ? RenderingHints.VALUE_STROKE_PURE : RenderingHints.VALUE_STROKE_NORMALIZE;
+        defaultHints.put(RenderingHints.KEY_STROKE_CONTROL, value);
+        defaultHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_DEFAULT);
+        defaultHints.put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_DEFAULT);
+        defaultHints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+        defaultHints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        defaultHints.put(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
     }
 
     /**
      * The documentation https://docs.oracle.com/javase/tutorial/2d/text/renderinghints.html
      */
     public static Graphics getAliasedGraphics(Graphics g) {
-        Map<RenderingHints.Key, Object> hints = (Map<RenderingHints.Key, Object>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
-
-        if (hints != null) {
-            hints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            hints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_DEFAULT);
-            hints.put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_DEFAULT);
-            //hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-            hints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-            hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            //hints.put(RenderingHints.KEY_TEXT_ANTIALIASING,	RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
-
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.addRenderingHints(hints);
-            return g2d;
-        }
-
-        //g2d.addRenderingHints (new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
-        return g;
+        Graphics2D g2d = (Graphics2D) g;
+        String screenConf = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getIDstring();
+        String currentDesktop = String.format("awt.font.desktophints.%s", screenConf);
+        Map<RenderingHints.Key, Object> renderHints =
+                (Map<RenderingHints.Key, Object>) Toolkit.getDefaultToolkit().getDesktopProperty(currentDesktop);
+        Map<RenderingHints.Key, Object> hints = putMissedHints(renderHints);
+        g2d.addRenderingHints(hints);
+        return g2d;
     }
 
     public static void drawCircle(Graphics g, int x, int y, int radius, Color color) {
@@ -79,5 +80,17 @@ public class MaterialDrawingUtils {
         BasicGraphicsUtils.drawStringUnderlineCharAt(g, text, mnemonicIndex,
                 textRect.x + shiftOffset,
                 textRect.y + fm.getAscent() + shiftOffset);
+    }
+
+    private static Map<RenderingHints.Key, Object> putMissedHints(Map<RenderingHints.Key, Object> hints) {
+        if (hints == null) {
+            return defaultHints;
+        }
+        for (Map.Entry<RenderingHints.Key, Object> entry : defaultHints.entrySet()) {
+            if (!hints.containsKey(entry.getKey())) {
+                hints.put(entry.getKey(), entry.getValue());
+            }
+        }
+        return hints;
     }
 }
