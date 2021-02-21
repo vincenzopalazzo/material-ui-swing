@@ -61,9 +61,6 @@ public class MaterialDrawingUtils {
         Graphics2D g2d = (Graphics2D) g;
         g2d.addRenderingHints(hints);
         return g2d;
-
-        //g2d.addRenderingHints (new RenderingHints (RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
-        //return g;
     }
 
     public static void drawCircle(Graphics g, int x, int y, int radius, Color color) {
