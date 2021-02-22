@@ -26,6 +26,7 @@ package mdlaf.components.textfield;
 
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
+
 import java.awt.*;
 
 /**
