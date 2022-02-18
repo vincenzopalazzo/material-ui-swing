@@ -52,7 +52,7 @@ public class DemoGUITest extends JFrame {
   static {
     try {
       JDialog.setDefaultLookAndFeelDecorated(true);
-      JFrame.setDefaultLookAndFeelDecorated(false); // not support yet
+      JFrame.setDefaultLookAndFeelDecorated(true); // not support yet
       UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialLiteTheme()));
       // UIManager.setLookAndFeel(new MaterialLookAndFeel(new DarkStackOverflowTheme()));
       UIManager.put(
