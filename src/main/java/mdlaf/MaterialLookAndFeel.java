@@ -50,7 +50,7 @@ import mdlaf.components.popupmenu.MaterialPopupMenuUI;
 import mdlaf.components.progressbar.MaterialProgressBarUI;
 import mdlaf.components.radiobutton.MaterialRadioButtonUI;
 import mdlaf.components.radiobuttonmenuitem.MaterialRadioButtonMenuItemUI;
-import mdlaf.components.rootpane.MaterialRootPaneUI;
+import mdlaf.components.rootpane.MaterialRootPaneUIv2;
 import mdlaf.components.scrollbar.MaterialScrollBarUI;
 import mdlaf.components.separator.MaterialSeparatorUI;
 import mdlaf.components.slider.MaterialSliderUI;
@@ -120,7 +120,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
   private static final String internalFrameUI = MaterialInternalFrameUI.class.getCanonicalName();
   private static final String textAreaUI = MaterialTextAreaUI.class.getCanonicalName();
   private static final String editorPane = MaterialEditorPaneUI.class.getCanonicalName();
-  private static final String rootPane = MaterialRootPaneUI.class.getCanonicalName();
+  private static final String rootPane = MaterialRootPaneUIv2.class.getCanonicalName();
   private static final String optionPaneUI = MaterialOptionPaneUI.class.getCanonicalName();
   private static final String colorChooserUI = MaterialColorChooser.class.getCanonicalName();
   private static final String splitPaneUI = MaterialSplitPaneUI.class.getCanonicalName();

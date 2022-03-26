@@ -37,6 +37,7 @@ import mdlaf.components.titlepane.MaterialTitlePaneUI;
  * @author Terry Kellerman // This code is inside the Open JDK
  * @author https://github.com/vincenzopalazzo
  */
+@Deprecated
 public class MaterialRootPaneUI extends BasicRootPaneUI {
 
   protected static final String[] borderKeys =
