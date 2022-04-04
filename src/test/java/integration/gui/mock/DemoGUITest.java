@@ -52,12 +52,13 @@ public class DemoGUITest extends JFrame {
   static {
     try {
       JDialog.setDefaultLookAndFeelDecorated(true);
-      JFrame.setDefaultLookAndFeelDecorated(true); // not support yet
+      // FIXME: finish support for the JFrame.setDefaultLookAndFeelDecorated
+      JFrame.setDefaultLookAndFeelDecorated(true);
       UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialLiteTheme()));
       // UIManager.setLookAndFeel(new MaterialLookAndFeel(new DarkStackOverflowTheme()));
       UIManager.put(
           "Button.mouseHoverEnable",
-          true); // Because the test are more difficulte with effect mouse hover
+          true); // Because the test are more difficult with effect mouse hover
     } catch (UnsupportedLookAndFeelException e) {
       e.printStackTrace();
     }

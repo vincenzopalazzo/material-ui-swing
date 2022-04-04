@@ -40,9 +40,9 @@ public class MaterialButtonsComponentsUI extends MaterialButtonUI {
 
   @Override
   public void installUI(JComponent c) {
-    borderEnabled = false;
     mouseHoverEnabled = false;
     super.installUI(c);
+    borderEnabled = false;
     buttonBorderToAll = false;
   }
 
