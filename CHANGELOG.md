@@ -1,5 +1,11 @@
 # v1.1.3-rc1
 
+## Fixed
+- Fixed the MaterialButtonsComponentsUI class to disable the border and avoid that the variable will be overridden by the default call. ([commit](https://github.com/vincenzopalazzo/material-ui-swing/commit/7dbfcbc500a70a4b5259138cd25e9ce5ab469724)). @vincenzopalazzo 04-04-2022
+
+
+# v1.1.2
+
 ## General
 - Merge pull request #177 from vincenzopalazzo/development ([commit](https://github.com/vincenzopalazzo/material-ui-swing/commit/bdd26eef3d34cc50c3dc53772f2e49bcc71f1445)). @vincenzopalazzo 26-03-2022
 - fixed bug in the resize windows ([commit](https://github.com/vincenzopalazzo/material-ui-swing/commit/93354a50c6eb973db53e6bc9e0fcec2fa08cd9ec)). @vincenzopalazzo 18-02-2022
