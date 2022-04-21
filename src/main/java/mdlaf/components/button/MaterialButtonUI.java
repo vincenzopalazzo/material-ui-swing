@@ -215,13 +215,6 @@ public class MaterialButtonUI extends BasicButtonUI {
       Graphics g, AbstractButton b, Rectangle viewRect, Rectangle textRect, Rectangle iconRect) {
     if (!button.isEnabled()) return;
     paintFocusRing(g, (JButton) b);
-    // paintFocusBorder(g, (JButton) b);
-  }
-
-  @Override
-  public void update(Graphics g, JComponent c) {
-    super.update(g, c);
-    if (!button.isFocusOwner()) paintBorderButton(g, c);
   }
 
   @Override
@@ -277,37 +270,21 @@ public class MaterialButtonUI extends BasicButtonUI {
     g2.dispose();
   }
 
-  @Deprecated
-  protected void paintFocusBorder(Graphics graphics, JButton b) {
-    if (!b.isEnabled() || !borderEnabled) {
-      return;
-    }
-    Color color;
-    if (defaultButton != null && defaultButton) {
-      color = UIManager.getColor("Button[Default][focus].color");
-    } else {
-      color = UIManager.getColor("Button[focus].color");
-    }
-    Graphics2D graphics2D = (Graphics2D) graphics.create();
-    graphics2D.setStroke(new BasicStroke(2f));
-
-    graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    int w = b.getWidth() - 1;
-    int h = b.getHeight() - 1;
-
-    graphics2D.setColor(color);
-    graphics2D.drawRoundRect(0, 0, w, h, arch + 2, arch + 2);
-    graphics2D.dispose();
-  }
-
   protected void paintBorderButton(Graphics graphics, JComponent b) {
+    // the button is disabled or the user don't want the borders
+    // enables on your hand
     if (!b.isEnabled() || !borderEnabled) {
       return;
     } else if (!buttonBorderToAll && ((JButton) b).getIcon() != null) {
+      // If the user don't want the border on all the buttons, we
+      // don't set the border on the button with an icon
       return;
     } else if (this.isDefaultButton() && !buttonBorderToAll) {
+      // if a button is a default button, and the user don't want
+      // the border on all the buttons we avoid set it on default buttons
       return;
     }
+    // otherwise, we set the border to the buttons
     Graphics2D graphics2D = (Graphics2D) graphics.create();
     graphics2D.setStroke(new BasicStroke(2f));
 
