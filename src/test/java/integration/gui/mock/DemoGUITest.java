@@ -54,8 +54,8 @@ public class DemoGUITest extends JFrame {
       JDialog.setDefaultLookAndFeelDecorated(true);
       // FIXME: finish support for the JFrame.setDefaultLookAndFeelDecorated
       JFrame.setDefaultLookAndFeelDecorated(true);
-      UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialLiteTheme()));
-      // UIManager.setLookAndFeel(new MaterialLookAndFeel(new DarkStackOverflowTheme()));
+      // UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialLiteTheme()));
+      UIManager.setLookAndFeel(new MaterialLookAndFeel(new DarkStackOverflowTheme()));
       UIManager.put(
           "Button.mouseHoverEnable",
           true); // Because the test are more difficult with effect mouse hover

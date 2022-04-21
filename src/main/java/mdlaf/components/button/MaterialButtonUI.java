@@ -96,9 +96,11 @@ public class MaterialButtonUI extends BasicButtonUI {
   }
 
   /**
-   * Inside the future version 1.2 this method will contain all component that work with listener,
-   * because this method is call before the installListener and I can insert the control of the
-   * listener inside the native method. TODO make the button installDefault change
+   * The installDefaults method is a good place to add the default setting, because it is called
+   * before to install methods and this give to the user the possibility to change the button style
+   * inside the installation method without worried about the order pre and post super.install call.
+   *
+   * <p>FIXME: starting the transition to the workflow described in the comment
    */
   @Override
   protected void installDefaults(AbstractButton b) {
@@ -215,13 +217,6 @@ public class MaterialButtonUI extends BasicButtonUI {
       Graphics g, AbstractButton b, Rectangle viewRect, Rectangle textRect, Rectangle iconRect) {
     if (!button.isEnabled()) return;
     paintFocusRing(g, (JButton) b);
-    // paintFocusBorder(g, (JButton) b);
-  }
-
-  @Override
-  public void update(Graphics g, JComponent c) {
-    super.update(g, c);
-    if (!button.isFocusOwner()) paintBorderButton(g, c);
   }
 
   @Override
@@ -275,29 +270,6 @@ public class MaterialButtonUI extends BasicButtonUI {
     }
     g2.drawRoundRect(5, 5, b.getWidth() - 10, b.getHeight() - 10, arch, arch);
     g2.dispose();
-  }
-
-  @Deprecated
-  protected void paintFocusBorder(Graphics graphics, JButton b) {
-    if (!b.isEnabled() || !borderEnabled) {
-      return;
-    }
-    Color color;
-    if (defaultButton != null && defaultButton) {
-      color = UIManager.getColor("Button[Default][focus].color");
-    } else {
-      color = UIManager.getColor("Button[focus].color");
-    }
-    Graphics2D graphics2D = (Graphics2D) graphics.create();
-    graphics2D.setStroke(new BasicStroke(2f));
-
-    graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-    int w = b.getWidth() - 1;
-    int h = b.getHeight() - 1;
-
-    graphics2D.setColor(color);
-    graphics2D.drawRoundRect(0, 0, w, h, arch + 2, arch + 2);
-    graphics2D.dispose();
   }
 
   protected void paintBorderButton(Graphics graphics, JComponent b) {
