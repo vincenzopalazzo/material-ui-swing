@@ -23,7 +23,7 @@ import java.util.List;
 import javax.accessibility.AccessibleContext;
 import javax.swing.*;
 import javax.swing.plaf.UIResource;
-import mdlaf.components.button.MaterialButtonUI;
+import mdlaf.components.button.MaterialButtonsComponentsUI;
 import mdlaf.utils.MaterialDrawingUtils;
 import mdlaf.utils.MaterialManagerListener;
 import mdlaf.utils.WrapperSwingUtilities;
@@ -172,53 +172,9 @@ public class MaterialTitlePane extends JComponent {
   }
 
   protected void determineColors() {
-    switch (getWindowDecorationStyle()) {
-      case JRootPane.FRAME:
-        myActiveBackground = UIManager.getColor("Material.activeCaption");
-        myActiveForeground = UIManager.getColor("Material.activeCaptionText");
-        myActiveShadow = UIManager.getColor("Material.activeCaptionBorder");
-        break;
-      case JRootPane.ERROR_DIALOG:
-        myActiveBackground = UIManager.getColor("OptionPane.errorDialog.titlePane.background");
-        myActiveForeground = UIManager.getColor("OptionPane.errorDialog.titlePane.foreground");
-        myActiveShadow = UIManager.getColor("OptionPane.errorDialog.titlePane.shadow");
-        break;
-      case JRootPane.QUESTION_DIALOG:
-        myActiveBackground = UIManager.getColor("OptionPane.questionDialog.titlePane.background");
-        myActiveForeground = UIManager.getColor("OptionPane.questionDialog.titlePane.foreground");
-        myActiveShadow = UIManager.getColor("OptionPane.questionDialog.titlePane.shadow");
-        break;
-      case JRootPane.COLOR_CHOOSER_DIALOG:
-        myActiveBackground = UIManager.getColor("OptionPane.questionDialog.titlePane.background");
-        myActiveForeground = UIManager.getColor("OptionPane.questionDialog.titlePane.foreground");
-        myActiveShadow = UIManager.getColor("OptionPane.questionDialog.titlePane.shadow");
-        break;
-      case JRootPane.FILE_CHOOSER_DIALOG:
-        myActiveBackground = UIManager.getColor("OptionPane.questionDialog.titlePane.background");
-        myActiveForeground = UIManager.getColor("OptionPane.questionDialog.titlePane.foreground");
-        myActiveShadow = myActiveBackground;
-        break;
-      case JRootPane.WARNING_DIALOG:
-        myActiveBackground = UIManager.getColor("OptionPane.warningDialog.titlePane.background");
-        myActiveForeground = UIManager.getColor("OptionPane.warningDialog.titlePane.foreground");
-        myActiveShadow = UIManager.getColor("OptionPane.warningDialog.titlePane.shadow");
-        break;
-      case JRootPane.PLAIN_DIALOG:
-        myActiveBackground = UIManager.getColor("OptionPane.questionDialog.titlePane.background");
-        myActiveForeground = UIManager.getColor("OptionPane.questionDialog.titlePane.foreground");
-        myActiveShadow = UIManager.getColor("OptionPane.questionDialog.titlePane.shadow");
-        break;
-      case JRootPane.INFORMATION_DIALOG:
-        myActiveBackground = UIManager.getColor("OptionPane.errorDialog.titlePane.background");
-        myActiveForeground = UIManager.getColor("OptionPane.errorDialog.titlePane.foreground");
-        myActiveShadow = UIManager.getColor("OptionPane.errorDialog.titlePane.shadow");
-        break;
-      default:
-        myActiveBackground = UIManager.getColor("Material.activeCaption");
-        myActiveForeground = UIManager.getColor("Material.activeCaptionText");
-        myActiveShadow = UIManager.getColor("Material.activeCaptionBorder");
-        break;
-    }
+    myActiveBackground = UIManager.getColor("Material.activeCaption");
+    myActiveForeground = UIManager.getColor("Material.activeCaptionText");
+    myActiveShadow = UIManager.getColor("Material.activeCaptionBorder");
   }
 
   protected void installDefaults() {
@@ -285,12 +241,13 @@ public class MaterialTitlePane extends JComponent {
     menu.add(myCloseAction);
   }
 
-  protected static JButton createButton(String accessibleName, Icon icon, Action action) {
-    JButton button = new TitlePaneButton(Color.BLACK, true);
+  protected JButton createButton(String accessibleName, Icon icon, Action action) {
+    JButton button = new TitlePaneButton();
     button.putClientProperty("paintActive", Boolean.TRUE);
     button.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, accessibleName);
     button.setAction(action);
     button.setIcon(icon);
+    button.setBackground(myActiveBackground);
     return button;
   }
 
@@ -319,10 +276,6 @@ public class MaterialTitlePane extends JComponent {
       myIconifyButton =
           createButton("Iconify", UIManager.getIcon("InternalFrame.iconifyIcon"), myIconifyAction);
       myToggleButton = createButton("Maximize", myMaximizeIcon, myRestoreAction);
-
-      myCloseButton.setBackground(myActiveBackground);
-      myIconifyButton.setBackground(myActiveBackground);
-      myToggleButton.setBackground(myActiveBackground);
     }
   }
 
@@ -553,30 +506,6 @@ public class MaterialTitlePane extends JComponent {
     public void actionPerformed(ActionEvent e) {
       maximize();
     }
-  }
-
-  protected void activeChanged(boolean active) {
-    boolean hasEmbeddedMenuBar =
-        myRootPane.getJMenuBar() != null && myRootPane.getJMenuBar().isVisible();
-    Color background = active ? myActiveBackground : myInactiveBackground;
-    Color foreground = active ? myActiveForeground : myInactiveForeground;
-    Color titleForeground = foreground;
-
-    setBackground(background);
-    myWindow.setForeground(titleForeground);
-    // myIconifyButton.setForeground(foreground);
-    // maximizeButton.setForeground(foreground);
-    myIconifyButton.setForeground(foreground);
-    myCloseButton.setForeground(foreground);
-
-    // titleLabel.setHorizontalAlignment(hasEmbeddedMenuBar ? SwingConstants.CENTER :
-    // SwingConstants.LEADING);
-
-    // this is necessary because hover/pressed colors are derived from background color
-    myIconifyButton.setBackground(background);
-    // maximizeButton.setBackground(background);
-    myToggleButton.setBackground(background);
-    myCloseButton.setBackground(background);
   }
 
   protected class TitlePaneLayout implements LayoutManager {
@@ -843,13 +772,7 @@ public class MaterialTitlePane extends JComponent {
 
   protected static class TitlePaneButton extends JButton {
 
-    protected Color background;
-    protected Boolean state;
-
-    public TitlePaneButton(Color background, Boolean state) {
-      this.background = background;
-      this.state = state;
-    }
+    public TitlePaneButton() {}
 
     @Override
     protected void init(String text, Icon icon) {
@@ -857,21 +780,34 @@ public class MaterialTitlePane extends JComponent {
       setUI(new TitlePaneButtonUI());
     }
 
-    private static class TitlePaneButtonUI extends MaterialButtonUI {
+    @Override
+    public void updateUI() {
+      super.updateUI();
+      setUI(new TitlePaneButtonUI());
+    }
 
+    private static class TitlePaneButtonUI extends MaterialButtonsComponentsUI {
       @Override
       public void installUI(JComponent c) {
-        mouseHoverEnabled = false;
         super.installUI(c);
-        c.setFocusable(false);
-        c.setOpaque(true);
-        c.setBackground(background);
-        c.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        super.background = UIManager.getColor("Material.activeCaption");
+        super.defaultBackground = UIManager.getColor("Material.activeCaption");
         c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
       }
 
       @Override
       protected void paintButtonPressed(Graphics g, AbstractButton b) {}
+
+      @Override
+      protected void paintBorderButton(Graphics graphics, JComponent b) {}
+
+      @Override
+      protected void paintFocus(
+          Graphics g,
+          AbstractButton b,
+          Rectangle viewRect,
+          Rectangle textRect,
+          Rectangle iconRect) {}
     }
   }
 }
