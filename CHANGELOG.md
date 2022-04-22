@@ -1,3 +1,14 @@
+# v1.1.3-rc2
+
+## Deprecated
+- material-title-pane: deprecate MaterialTitlePaneUI old class ([commit](https://github.com/vincenzopalazzo/material-ui-swing/commit/fc7e2c81956428e9bf8adf0c3baac1347e0f8255)). @vincenzopalazzo 21-04-2022
+- remove the `paintFocusBorder` function ([commit](https://github.com/vincenzopalazzo/material-ui-swing/commit/5696bf23244eea2e82cc80ee5e6083cb87e20e45)). @vincenzopalazzo 21-04-2022
+
+## Fixed
+- button: fixes when the button should paint the border in focus mode ([commit](https://github.com/vincenzopalazzo/material-ui-swing/commit/ac510948ca20d45b0d6186020effda2681acc992)). @vincenzopalazzo 21-04-2022
+- title-pane: fixes button behavior ([commit](https://github.com/vincenzopalazzo/material-ui-swing/commit/b1d539daee8c402baa719a8ab7ed331ea7a6957d)). @vincenzopalazzo 21-04-2022
+
+
 # v1.1.3-rc1
 
 ## Fixed
