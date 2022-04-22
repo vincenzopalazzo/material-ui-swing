@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019-2020 Vincenzo Palazzo vincenzopalazzo1996@gmail.com
+ * Copyright (c) 2019-2022 Vincenzo Palazzo vincenzopalazzo1996@gmail.com
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
  */
 package mdlaf.components.button;
 
-import java.awt.*;
 import javax.swing.*;
 
 /**
@@ -45,11 +44,4 @@ public class MaterialButtonsComponentsUI extends MaterialButtonUI {
     borderEnabled = false;
     buttonBorderToAll = false;
   }
-
-  @Override
-  protected void paintFocus(
-      Graphics g, AbstractButton b, Rectangle viewRect, Rectangle textRect, Rectangle iconRect) {}
-
-  @Override
-  protected void paintBorderButton(Graphics graphics, JComponent b) {}
 }

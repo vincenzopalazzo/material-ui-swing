@@ -96,9 +96,11 @@ public class MaterialButtonUI extends BasicButtonUI {
   }
 
   /**
-   * Inside the future version 1.2 this method will contain all component that work with listener,
-   * because this method is call before the installListener and I can insert the control of the
-   * listener inside the native method. TODO make the button installDefault change
+   * The installDefaults method is a good place to add the default setting, because it is called
+   * before to install methods and this give to the user the possibility to change the button style
+   * inside the installation method without worried about the order pre and post super.install call.
+   *
+   * <p>FIXME: starting the transition to the workflow described in the comment
    */
   @Override
   protected void installDefaults(AbstractButton b) {

@@ -25,7 +25,6 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import javax.accessibility.AccessibleContext;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.UIResource;
 import mdlaf.components.button.MaterialButtonsComponentsUI;
 import mdlaf.utils.MaterialDrawingUtils;
@@ -35,6 +34,7 @@ import mdlaf.utils.WrapperSwingUtilities;
 /**
  * @author Konstantin Bulenkov this code is copyed by OpenJDK
  * @author https://github.com/users/vincenzopalazzo
+ * @deprecated Use MaterialTitlePane
  */
 public class MaterialTitlePaneUI extends JComponent {
 
@@ -245,15 +245,11 @@ public class MaterialTitlePaneUI extends JComponent {
     menu.add(myCloseAction);
   }
 
-  protected static JButton createButton(String accessibleName, Icon icon, Action action) {
+  protected JButton createButton(String accessibleName, Icon icon, Action action) {
     JButton button = new JButtonNoMouseHoverNative();
-    button.setFocusPainted(false);
-    button.setFocusable(false);
-    button.setOpaque(true);
+    button.setUI(new JButtonNoMouseHoverNative.JButtonNoMouseHoverUI());
     button.putClientProperty("paintActive", Boolean.TRUE);
     button.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY, accessibleName);
-    button.setBorder(new EmptyBorder(0, 0, 0, 0));
-    button.setText(null);
     button.setAction(action);
     button.setIcon(icon);
     return button;
@@ -666,7 +662,9 @@ public class MaterialTitlePaneUI extends JComponent {
 
   protected static class JButtonNoMouseHoverNative extends JButton {
 
-    public JButtonNoMouseHoverNative() {}
+    public JButtonNoMouseHoverNative() {
+      super();
+    }
 
     public JButtonNoMouseHoverNative(Icon icon) {
       super(icon);
@@ -685,12 +683,6 @@ public class MaterialTitlePaneUI extends JComponent {
     }
 
     @Override
-    protected void init(String text, Icon icon) {
-      super.init(text, icon);
-      setUI(new JButtonNoMouseHoverUI());
-    }
-
-    @Override
     public void updateUI() {
       setUI(new JButtonNoMouseHoverUI());
     }
@@ -700,13 +692,13 @@ public class MaterialTitlePaneUI extends JComponent {
       @Override
       public void installUI(JComponent c) {
         super.installUI(c);
+        super.background = UIManager.getColor("TitlePane.background");
+        super.defaultBackground = UIManager.getColor("TitlePane.background");
         c.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
       }
 
       @Override
-      protected void paintButtonPressed(Graphics g, AbstractButton b) {
-        // doNothing
-      }
+      protected void paintButtonPressed(Graphics g, AbstractButton b) {}
 
       @Override
       protected void paintBorderButton(Graphics graphics, JComponent b) {}
@@ -717,9 +709,7 @@ public class MaterialTitlePaneUI extends JComponent {
           AbstractButton b,
           Rectangle viewRect,
           Rectangle textRect,
-          Rectangle iconRect) {
-        // do nothing
-      }
+          Rectangle iconRect) {}
     }
   }
 }
