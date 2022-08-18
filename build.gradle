@@ -72,5 +72,11 @@ task jarWithDependencies(type: Jar) {
     with jar
 }
 
+task runDemo(type: Exec) {
+    group = "material-ui-swing"
+    description = "Run the Material-UI-Swing demo"
+    commandLine "java", "-classpath", sourceSets.test.runtimeClasspath.getAsPath(), 'integration.gui.mock.DemoGUITest'
+}
+
 uploadArchives.onlyIf { property('RELEASE_ENABLE') == 'true'}
 signArchives.onlyIf { property('RELEASE_ENABLE') == 'true'}

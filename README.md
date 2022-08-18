@@ -23,6 +23,7 @@ A modern, Material Design UI for Java Swing
 - [Material Theming](https://github.com/vincenzopalazzo/material-ui-swing/wiki)
 - [Develop a new Theme](https://github.com/vincenzopalazzo/material-ui-swing/wiki)
 - [Screenshots](https://github.com/vincenzopalazzo/material-ui-swing/wiki/Screenshots)
+- [How Contribute](/docs/dev/MAINTAINERS.md)
 - [Built with](https://github.com/vincenzopalazzo/material-ui-swing/wiki/Built-with)
 - [Community](https://gitter.im/material-ui-swing/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 - [License](https://github.com/vincenzopalazzo/material-ui-swing/tree/development#license)
