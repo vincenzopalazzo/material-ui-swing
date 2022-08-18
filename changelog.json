@@ -7,7 +7,7 @@
     "branch": "master"
   },
   "generation_method": {
-    "name": "metadata",
+    "name": "semver-v2",
     "header_filter": false
   },
   "serialization_method": {
