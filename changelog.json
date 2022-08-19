@@ -1,13 +1,13 @@
 {
   "package_name": "material-ui-swing",
-  "version": "v1.1.3-rc2",
+  "version": "v1.1.4-rc1",
   "api": {
     "name": "github",
     "repository": "vincenzopalazzo/material-ui-swing",
     "branch": "master"
   },
   "generation_method": {
-    "name": "metadata",
+    "name": "semver-v2",
     "header_filter": false
   },
   "serialization_method": {

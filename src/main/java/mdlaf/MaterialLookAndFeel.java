@@ -709,16 +709,18 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
     table.put("InternalFrame.activeTitleBackground", theme.getBackgroundPrimary());
     table.put("InternalFrame.activeTitleForeground", theme.getTextColor());
     table.put("InternalFrame.inactiveTitleBackground", theme.getBackgroundPrimary());
-    table.put("InternalFrame.inactiveTitleForeground", theme.getDisableTextColor());
+    table.put("InternalFrame.inactiveTitleForeground", theme.getTextColor());
     table.put("InternalFrame.titleFont", theme.getFontBold());
     table.put("InternalFrame.background", theme.getBackgroundPrimary());
     table.put("InternalFrame.border", MaterialBorders.DEFAULT_SHADOW_BORDER);
 
     // This is for change the TitlePane
-    table.put("Material.activeCaption", theme.getMenuBackground());
-    table.put("Material.inactiveCaption", theme.getMenuBackground());
+    // FIXME: we may take in consideration to support the Dialog with new properties
+    // because there use use case that these only are not enough.
+    table.put("Material.activeCaption", theme.getBackgroundPrimary());
+    table.put("Material.inactiveCaption", theme.getBackgroundPrimary());
     table.put("Material.activeCaptionText", theme.getTextColor());
-    table.put("Material.inactiveCaptionText", theme.getDisableTextColor());
+    table.put("Material.inactiveCaptionText", theme.getTextColor());
     table.put(
         "Material.activeCaptionBorder",
         new BorderUIResource(BorderFactory.createLineBorder(theme.getBackgroundPrimary())));
