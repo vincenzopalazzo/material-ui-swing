@@ -1,3 +1,9 @@
+# v1.1.4-rc1
+
+## Fixed
+- create a task to run the demo ([commit](https://github.com/vincenzopalazzo/material-ui-swing/commit/7bf776a30b8eb4be547310c61083af113aff5f6b)). @vincenzopalazzo 19-08-2022
+- fixed the window title color when the paint is up to the library ([commit](https://github.com/vincenzopalazzo/material-ui-swing/commit/2006a7fcee65d5762e885c0b948e14f6daa9e196)). @vincenzopalazzo 19-08-2022
+
 # v1.1.3-rc2
 
 ## Deprecated
