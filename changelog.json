@@ -1,6 +1,6 @@
 {
   "package_name": "material-ui-swing",
-  "version": "v1.1.4-rc1",
+  "version": "v1.1.4",
   "api": {
     "name": "github",
     "repository": "vincenzopalazzo/material-ui-swing",
