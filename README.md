@@ -28,7 +28,7 @@ A modern, Material Design UI for Java Swing
 - [Community](https://gitter.im/material-ui-swing/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 - [License](https://github.com/vincenzopalazzo/material-ui-swing/tree/development#license)
 
- ## Repository
+## Repository
 
  _Maven_
  ```xml
