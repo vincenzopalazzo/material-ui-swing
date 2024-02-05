@@ -77,6 +77,12 @@ dependencies {
 
 ```
 
+### Excluding Swingx
+
+While swingx is a transitive dependency for Material-UI-Swing, it is not strictly required for it to work.
+Projects that wish to exclude it can use dependency exclusion on [Maven](https://maven.apache.org/guides/introduction/introduction-to-optional-and-excludes-dependencies.html)
+or [Gradle](https://docs.gradle.org/current/userguide/dependency_downgrade_and_exclude.html#sec:excluding-transitive-deps).
+
 ## Code Style
 > We live in a world where robots can drive a car, so we shouldn't just write code, we should write elegant code.
 

@@ -113,7 +113,7 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
   private static final String separatorUI = MaterialSeparatorUI.class.getCanonicalName();
   private static final String fileChooserUI = MaterialFileChooserUI.class.getCanonicalName();
   private static final String toolTipUI = MaterialToolTipUI.class.getCanonicalName();
-  private static final String taskPaneUI = MaterialTaskPaneUI.class.getCanonicalName();
+  private static final String taskPaneUI;
   private static final String formattedTextFieldUI =
       MaterialFormattedTextFieldUI.class.getCanonicalName();
   private static final String listUI = MaterialListUI.class.getCanonicalName();
@@ -124,6 +124,16 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
   private static final String optionPaneUI = MaterialOptionPaneUI.class.getCanonicalName();
   private static final String colorChooserUI = MaterialColorChooser.class.getCanonicalName();
   private static final String splitPaneUI = MaterialSplitPaneUI.class.getCanonicalName();
+
+  static {
+    String taskPaneUIName = null;
+    try {
+      taskPaneUIName = MaterialTaskPaneUI.class.getCanonicalName();
+    } catch (NoClassDefFoundError ignored) {
+      // Swingx is not in the classpath
+    }
+    taskPaneUI = taskPaneUIName;
+  }
 
   public static void changeTheme(MaterialTheme theme) {
     if (theme == null) {
@@ -235,7 +245,9 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
     table.put("SplitPaneUI", splitPaneUI);
     table.put("ColorChooserUI", colorChooserUI);
     // java swingx
-    table.put("swingx/TaskPaneUI", taskPaneUI);
+    if (taskPaneUI != null) {
+      table.put("swingx/TaskPaneUI", taskPaneUI);
+    }
   }
 
   @Override
