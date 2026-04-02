@@ -180,7 +180,13 @@ public class MaterialFontFactory {
         withPersonalSettings ? this.doOptimizingDimensionFont(this.defaultSize) : this.defaultSize;
     if (withPersonalSettings && fontSettings.isEmpty()) {
       fontSettings.put(TextAttribute.SIZE, size);
-      fontSettings.put(TextAttribute.KERNING, TextAttribute.KERNING_ON);
+      // Disable kerning on macOS with JDK8 to prevent cursor misalignment in text
+      // components (JTextArea, JTextField). Kerning combined with JDK8's integer-based
+      // caret positioning causes the cursor to drift ahead of the text.
+      // See: https://github.com/vincenzopalazzo/material-ui-swing/issues/142
+      if (!(Utils.isMacOS() && Utils.isJavaVersionUnderJava9())) {
+        fontSettings.put(TextAttribute.KERNING, TextAttribute.KERNING_ON);
+      }
     }
     try {
       Font font;

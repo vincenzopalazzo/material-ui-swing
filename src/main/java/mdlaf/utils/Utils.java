@@ -30,5 +30,10 @@ public class Utils {
     return System.getProperty("java.version").startsWith("1.");
   }
 
+  public static boolean isMacOS() {
+    String osName = System.getProperty("os.name");
+    return osName != null && osName.toLowerCase().contains("mac");
+  }
+
   private Utils() {}
 }
