@@ -41,8 +41,6 @@ import javax.swing.plaf.FontUIResource;
  */
 public class MaterialFontFactory {
 
-  private static final Map<TextAttribute, Object> fontSettings = new HashMap<>();
-
   public static final MaterialTypeFont REGULAR = MaterialTypeFont.REGULAR;
   public static final MaterialTypeFont BOLD = MaterialTypeFont.BOLD;
   public static final MaterialTypeFont ITALIC = MaterialTypeFont.ITALIC;
@@ -178,22 +176,24 @@ public class MaterialFontFactory {
   private FontUIResource loadFont(InputStream inputStream, boolean withPersonalSettings) {
     float size =
         withPersonalSettings ? this.doOptimizingDimensionFont(this.defaultSize) : this.defaultSize;
-    if (withPersonalSettings && fontSettings.isEmpty()) {
-      fontSettings.put(TextAttribute.SIZE, size);
-      fontSettings.put(TextAttribute.KERNING, TextAttribute.KERNING_ON);
-    }
     try {
-      Font font;
+      Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(size);
       if (withPersonalSettings) {
-        font = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(fontSettings);
-        return new FontUIResource(font);
+        // Keep sizing outside the attribute map so SIZE cannot be accidentally cached and reused
+        // across font loads. That protects Java2D metrics when display scaling changes.
+        font = font.deriveFont(getFontSettings());
       }
-      font = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(size);
       return new FontUIResource(font);
     } catch (IOException | FontFormatException e) {
       e.printStackTrace();
       throw new RuntimeException("Font " + inputStream.toString() + " wasn't loaded");
     }
+  }
+
+  private static Map<TextAttribute, Object> getFontSettings() {
+    Map<TextAttribute, Object> settings = new HashMap<>();
+    settings.put(TextAttribute.KERNING, TextAttribute.KERNING_ON);
+    return settings;
   }
 
   /**
