@@ -71,6 +71,7 @@ import mdlaf.themes.MaterialLiteTheme;
 import mdlaf.themes.MaterialTheme;
 import mdlaf.themes.exceptions.MaterialChangeThemeException;
 import mdlaf.utils.MaterialBorders;
+import mdlaf.utils.MaterialDisplayScaleWatcher;
 import mdlaf.utils.MaterialImageFactory;
 import mdlaf.utils.icons.MaterialIconFont;
 
@@ -817,7 +818,15 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
   }
 
   @Override
+  public void initialize() {
+    super.initialize();
+    // Refresh font defaults when a window crosses to a display with a different DPI/scale.
+    MaterialDisplayScaleWatcher.install();
+  }
+
+  @Override
   public void uninitialize() {
+    MaterialDisplayScaleWatcher.uninstall();
     call("uninitialize");
   }
 

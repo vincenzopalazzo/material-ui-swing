@@ -79,7 +79,22 @@ public class MaterialFontFactory {
    */
   protected Properties properties = new Properties();
 
-  protected Map<String, FontUIResource> cacheFont = new HashMap<>();
+  /**
+   * Cache of bare typefaces parsed from each TTF resource, keyed by the source identifier (font
+   * path or stream identity). Size and per-load attributes (kerning) are NOT baked into these
+   * Fonts; they are derived on every {@link #getFont} call so display-scale changes are picked up
+   * the next time the font is requested. See {@link #invalidateScaleCache()} for how external
+   * code can drop everything when the JRE reports a display change.
+   */
+  protected Map<String, Font> typefaceCache = new HashMap<>();
+
+  /**
+   * @deprecated kept only for binary compatibility with subclasses that may have read this field.
+   *     The factory no longer caches sized {@link FontUIResource} instances because doing so pins
+   *     font metrics to the scale that was active when the entry was first created.
+   */
+  @Deprecated protected Map<String, FontUIResource> cacheFont = new HashMap<>();
+
   protected float defaultSize = 14f;
   protected boolean withPersonalSettings = true;
 
@@ -127,14 +142,8 @@ public class MaterialFontFactory {
     if (typeFont == null) {
       throw new IllegalArgumentException("\n- Parameter type font null.\n");
     }
-    String typeFontString = typeFont.toString();
-    if (cacheFont.containsKey(typeFontString)) {
-      return cacheFont.get(typeFontString);
-    }
-    String proprieties = properties.getProperty(typeFontString);
-    FontUIResource font = getFontWithPath(proprieties);
-    cacheFont.put(typeFontString, font);
-    return font;
+    String path = properties.getProperty(typeFont.toString());
+    return getFontWithPath(path, withPersonalSettings);
   }
 
   /**
@@ -149,8 +158,13 @@ public class MaterialFontFactory {
     if (path == null || path.isEmpty()) {
       throw new IllegalArgumentException("\n- The path to load personal fort is null or empty");
     }
-    InputStream stream = getClass().getResourceAsStream(path);
-    return loadFont(stream, withPersonalSettings);
+    Font typeface = typefaceCache.get(path);
+    if (typeface == null) {
+      InputStream stream = getClass().getResourceAsStream(path);
+      typeface = loadTypeface(stream);
+      typefaceCache.put(path, typeface);
+    }
+    return deriveSizedFont(typeface, withPersonalSettings);
   }
 
   /**
@@ -163,31 +177,47 @@ public class MaterialFontFactory {
     if (stream == null) {
       throw new IllegalArgumentException("\n- The stream to load personal fort is null");
     }
-    return loadFont(stream, withPersonalSettings);
+    return deriveSizedFont(loadTypeface(stream), withPersonalSettings);
   }
 
   /**
-   * The JDK 8 paint with fin with pixel, this effect is not present in JDK version > 9 But this
-   * library try to support the all JDK version and with the calculate dimension form resolution
-   * screen resolve in part the pixelated effect. This is the resource that report the optimizing
-   * font
-   * https://stackoverflow.com/questions/5829703/java-getting-a-font-with-a-specific-height-in-pixels
+   * Drop every cached typeface so the next {@link #getFont} call re-parses the TTF. Call this
+   * when the system reports a display scale change so any sized Fonts handed out previously can
+   * be re-derived from a freshly loaded typeface; it complements the per-call size derivation in
+   * {@link #deriveSizedFont}.
    */
-  private FontUIResource loadFont(InputStream inputStream, boolean withPersonalSettings) {
-    float size =
-        withPersonalSettings ? this.doOptimizingDimensionFont(this.defaultSize) : this.defaultSize;
+  public void invalidateScaleCache() {
+    typefaceCache.clear();
+    cacheFont.clear();
+  }
+
+  /**
+   * Parse a TTF stream into a bare {@link Font}. Intentionally does NOT apply size or kerning,
+   * so the same typeface can be re-used to build differently sized Fonts when the display scale
+   * changes.
+   */
+  private Font loadTypeface(InputStream inputStream) {
     try {
-      Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(size);
-      if (withPersonalSettings) {
-        // Keep sizing outside the attribute map so SIZE cannot be accidentally cached and reused
-        // across font loads. That protects Java2D metrics when display scaling changes.
-        font = font.deriveFont(getFontSettings());
-      }
-      return new FontUIResource(font);
+      return Font.createFont(Font.TRUETYPE_FONT, inputStream);
     } catch (IOException | FontFormatException e) {
       e.printStackTrace();
-      throw new RuntimeException("Font " + inputStream.toString() + " wasn't loaded");
+      throw new RuntimeException("Font " + inputStream + " wasn't loaded");
     }
+  }
+
+  /**
+   * Take a bare typeface and produce a {@link FontUIResource} sized for the current scale. The
+   * size is recomputed on every call so cross-display moves see a fresh value the next time the
+   * factory is asked for a font.
+   */
+  private FontUIResource deriveSizedFont(Font typeface, boolean withPersonalSettings) {
+    float size =
+        withPersonalSettings ? this.doOptimizingDimensionFont(this.defaultSize) : this.defaultSize;
+    Font sized = typeface.deriveFont(size);
+    if (withPersonalSettings) {
+      sized = sized.deriveFont(getFontSettings());
+    }
+    return new FontUIResource(sized);
   }
 
   private static Map<TextAttribute, Object> getFontSettings() {

@@ -506,6 +506,15 @@ public abstract class AbstractMaterialTheme implements MaterialTheme {
     this.fontRegular = MaterialFontFactory.getInstance().getFont(MaterialFontFactory.REGULAR);
   }
 
+  /**
+   * Re-derive the four cached theme fonts from {@link MaterialFontFactory}. Called by the display
+   * scale watcher after a window crosses to a different display so the theme's fontXxx fields
+   * reflect the new scale before the L&amp;F is reinstalled.
+   */
+  public void refreshFonts() {
+    installFonts();
+  }
+
   protected void installIcons() {
     this.iconComputerFileChooser =
         MaterialImageFactory.getInstance().getImage(MaterialIconFont.COMPUTER, textColor);

@@ -18,10 +18,10 @@ import org.junit.runners.JUnit4;
 public class MaterialFontFactoryTest {
 
   private static final String PATH = "/fonts/noto-sans/";
-  private static final String BOLD_NAME = "NotoSans-Bold.ttf";
-  private static final String REGULAR_NAME = "NotoSans-Regular.ttf";
-  private static final String MEDIUM_NAME = "NotoSans-Medium.ttf";
-  private static final String ITALIC_NAME = "NotoSans-Italic.ttf";
+  private static final String BOLD_NAME = "NotoSansDisplay-Bold.ttf";
+  private static final String REGULAR_NAME = "NotoSansDisplay-Regular.ttf";
+  private static final String MEDIUM_NAME = "NotoSansDisplay-Medium.ttf";
+  private static final String ITALIC_NAME = "NotoSansDisplay-Italic.ttf";
 
   @BeforeClass
   public static void beforeClass() throws Exception {
@@ -84,6 +84,44 @@ public class MaterialFontFactoryTest {
 
     TestCase.assertEquals(18f, largerFont.getSize2D());
     TestCase.assertEquals(14f, defaultFont.getSize2D());
+  }
+
+  /**
+   * A second {@link MaterialFontFactory#getFontWithPath} call for the same resource path must reuse
+   * the parsed typeface but still return a freshly sized {@link FontUIResource} that reflects the
+   * current {@code defaultSize}. This is the scale-on-demand contract: typeface caching is fine,
+   * size pinning is not.
+   */
+  @Test
+  public void testTypefaceIsReusedButSizeFollowsDefaultSize() throws Exception {
+    MaterialFontFactory fontFactory = MaterialFontFactory.getInstance();
+
+    setDefaultFontSize(fontFactory, 14f);
+    Font initial = fontFactory.getFontWithPath(PATH + REGULAR_NAME);
+
+    setDefaultFontSize(fontFactory, 22f);
+    Font afterSizeChange = fontFactory.getFontWithPath(PATH + REGULAR_NAME);
+
+    TestCase.assertEquals(14f, initial.getSize2D());
+    TestCase.assertEquals(22f, afterSizeChange.getSize2D());
+    TestCase.assertEquals(initial.getFontName(), afterSizeChange.getFontName());
+  }
+
+  /**
+   * After {@link MaterialFontFactory#invalidateScaleCache()} the typeface cache is empty, so the
+   * next path-based load re-parses the TTF. We can't observe parsing directly, but a successful
+   * load with the expected size verifies the path still works after invalidation.
+   */
+  @Test
+  public void testInvalidateScaleCacheForcesReparseAndStillReturnsCorrectSize() throws Exception {
+    MaterialFontFactory fontFactory = MaterialFontFactory.getInstance();
+
+    fontFactory.getFontWithPath(PATH + REGULAR_NAME);
+    fontFactory.invalidateScaleCache();
+
+    setDefaultFontSize(fontFactory, 17f);
+    Font reloaded = fontFactory.getFontWithPath(PATH + REGULAR_NAME);
+    TestCase.assertEquals(17f, reloaded.getSize2D());
   }
 
   private void setDefaultFontSize(MaterialFontFactory fontFactory, float size) throws Exception {
