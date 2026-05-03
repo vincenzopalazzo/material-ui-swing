@@ -47,12 +47,12 @@ import mdlaf.themes.MaterialTheme;
  * font defaults when a window's {@link GraphicsConfiguration} changes — i.e. it crossed to a
  * display with a different DPI/scale.
  *
- * <p>Issue #205 (Java 17 mixed-DPI font scaling): the JRE applies per-display transforms via
- * {@code sun.java2d.uiScale}, but cached {@code FontUIResource} instances and component metrics
- * computed at construction time can be stale after the move. This watcher invalidates the typeface
- * cache, asks the active theme to re-derive its fonts, re-applies the L&amp;F so {@code UIDefaults}
- * pick up the new {@code FontUIResource} instances, and triggers {@code updateComponentTreeUI} on
- * the affected window.
+ * <p>Issue #205 (Java 17 mixed-DPI font scaling): the JRE applies per-display transforms via {@code
+ * sun.java2d.uiScale}, but cached {@code FontUIResource} instances and component metrics computed
+ * at construction time can be stale after the move. This watcher invalidates the typeface cache,
+ * asks the active theme to re-derive its fonts, re-applies the L&amp;F so {@code UIDefaults} pick
+ * up the new {@code FontUIResource} instances, and triggers {@code updateComponentTreeUI} on the
+ * affected window.
  *
  * <p>The watcher is a no-op in headless environments and silently degrades if installing an AWT
  * event listener is denied (e.g. restrictive {@code SecurityManager}).
@@ -175,9 +175,9 @@ public final class MaterialDisplayScaleWatcher {
 
   /**
    * Drop cached typefaces, ask the active theme to re-derive its fonts, re-install the L&amp;F so
-   * {@code UIDefaults} get the fresh {@link javax.swing.plaf.FontUIResource} instances, and
-   * trigger {@code updateComponentTreeUI} for {@code window}. Package-private so tests can
-   * exercise it without an actual display change.
+   * {@code UIDefaults} get the fresh {@link javax.swing.plaf.FontUIResource} instances, and trigger
+   * {@code updateComponentTreeUI} for {@code window}. Package-private so tests can exercise it
+   * without an actual display change.
    */
   static void refreshNow(Window window) {
     MaterialFontFactory.getInstance().invalidateScaleCache();

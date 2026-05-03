@@ -64,9 +64,9 @@ public class MaterialDisplayScaleWatcherTest {
   }
 
   /**
-   * With the Material L&F installed, refreshNow should re-derive the theme's fonts via
-   * {@link MaterialFontFactory#invalidateScaleCache()} + theme.refreshFonts(). After the call the
-   * cache is empty (refresh path completed) and the theme's regular font is non-null.
+   * With the Material L&F installed, refreshNow should re-derive the theme's fonts via {@link
+   * MaterialFontFactory#invalidateScaleCache()} + theme.refreshFonts(). After the call the cache is
+   * empty (refresh path completed) and the theme's regular font is non-null.
    */
   @Test
   public void testRefreshNowRebakesThemeFontsWithMaterialLafInstalled()

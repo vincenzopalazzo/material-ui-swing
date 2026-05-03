@@ -83,8 +83,8 @@ public class MaterialFontFactory {
    * Cache of bare typefaces parsed from each TTF resource, keyed by the source identifier (font
    * path or stream identity). Size and per-load attributes (kerning) are NOT baked into these
    * Fonts; they are derived on every {@link #getFont} call so display-scale changes are picked up
-   * the next time the font is requested. See {@link #invalidateScaleCache()} for how external
-   * code can drop everything when the JRE reports a display change.
+   * the next time the font is requested. See {@link #invalidateScaleCache()} for how external code
+   * can drop everything when the JRE reports a display change.
    */
   protected Map<String, Font> typefaceCache = new HashMap<>();
 
@@ -181,9 +181,9 @@ public class MaterialFontFactory {
   }
 
   /**
-   * Drop every cached typeface so the next {@link #getFont} call re-parses the TTF. Call this
-   * when the system reports a display scale change so any sized Fonts handed out previously can
-   * be re-derived from a freshly loaded typeface; it complements the per-call size derivation in
+   * Drop every cached typeface so the next {@link #getFont} call re-parses the TTF. Call this when
+   * the system reports a display scale change so any sized Fonts handed out previously can be
+   * re-derived from a freshly loaded typeface; it complements the per-call size derivation in
    * {@link #deriveSizedFont}.
    */
   public void invalidateScaleCache() {
@@ -192,8 +192,8 @@ public class MaterialFontFactory {
   }
 
   /**
-   * Parse a TTF stream into a bare {@link Font}. Intentionally does NOT apply size or kerning,
-   * so the same typeface can be re-used to build differently sized Fonts when the display scale
+   * Parse a TTF stream into a bare {@link Font}. Intentionally does NOT apply size or kerning, so
+   * the same typeface can be re-used to build differently sized Fonts when the display scale
    * changes.
    */
   private Font loadTypeface(InputStream inputStream) {
@@ -206,9 +206,9 @@ public class MaterialFontFactory {
   }
 
   /**
-   * Take a bare typeface and produce a {@link FontUIResource} sized for the current scale. The
-   * size is recomputed on every call so cross-display moves see a fresh value the next time the
-   * factory is asked for a font.
+   * Take a bare typeface and produce a {@link FontUIResource} sized for the current scale. The size
+   * is recomputed on every call so cross-display moves see a fresh value the next time the factory
+   * is asked for a font.
    */
   private FontUIResource deriveSizedFont(Font typeface, boolean withPersonalSettings) {
     float size =
