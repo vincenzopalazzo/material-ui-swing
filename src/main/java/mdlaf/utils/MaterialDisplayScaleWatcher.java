@@ -37,7 +37,6 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import mdlaf.MaterialLookAndFeel;
 import mdlaf.themes.AbstractMaterialTheme;
 import mdlaf.themes.MaterialTheme;
@@ -50,9 +49,9 @@ import mdlaf.themes.MaterialTheme;
  * <p>Issue #205 (Java 17 mixed-DPI font scaling): the JRE applies per-display transforms via {@code
  * sun.java2d.uiScale}, but cached {@code FontUIResource} instances and component metrics computed
  * at construction time can be stale after the move. This watcher invalidates the typeface cache,
- * asks the active theme to re-derive its fonts, re-applies the L&amp;F so {@code UIDefaults} pick
- * up the new {@code FontUIResource} instances, and triggers {@code updateComponentTreeUI} on the
- * affected window.
+ * asks the active theme to re-derive its fonts, refreshes only the {@code *.font} entries in the
+ * current {@code UIDefaults} (so colors, borders, and runtime customizations made by the host app
+ * are not touched), then triggers {@code updateComponentTreeUI} on the affected window.
  *
  * <p>The watcher is a no-op in headless environments and silently degrades if installing an AWT
  * event listener is denied (e.g. restrictive {@code SecurityManager}).
@@ -174,10 +173,11 @@ public final class MaterialDisplayScaleWatcher {
   }
 
   /**
-   * Drop cached typefaces, ask the active theme to re-derive its fonts, re-install the L&amp;F so
-   * {@code UIDefaults} get the fresh {@link javax.swing.plaf.FontUIResource} instances, and trigger
-   * {@code updateComponentTreeUI} for {@code window}. Package-private so tests can exercise it
-   * without an actual display change.
+   * Drop cached typefaces, ask the active theme to re-derive its fonts, refresh only the {@code
+   * *.font} entries in {@code UIManager.getLookAndFeelDefaults()}, then trigger {@code
+   * updateComponentTreeUI} for {@code window}. Avoids reinstalling the L&amp;F so colors, borders,
+   * and any runtime customizations made by the host app are preserved. Package-private so tests can
+   * exercise it without an actual display change.
    */
   static void refreshNow(Window window) {
     MaterialFontFactory.getInstance().invalidateScaleCache();
@@ -187,12 +187,7 @@ public final class MaterialDisplayScaleWatcher {
       if (theme instanceof AbstractMaterialTheme) {
         ((AbstractMaterialTheme) theme).refreshFonts();
       }
-      try {
-        UIManager.setLookAndFeel(laf);
-      } catch (UnsupportedLookAndFeelException ignored) {
-        // The L&F was supported a moment ago; if reinstall fails skip the tree update.
-        return;
-      }
+      MaterialLookAndFeel.installFontDefaults(UIManager.getLookAndFeelDefaults(), theme);
     }
     if (window != null) {
       SwingUtilities.updateComponentTreeUI(window);

@@ -838,6 +838,50 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
     this.theme = theme;
   }
 
+  /**
+   * Re-apply only the {@code *.font} entries from the current theme to {@code table}. Used by the
+   * display-change watcher to refresh fonts after a window crosses to another display, without
+   * resetting colors, borders, or icons that the host app may have customized at runtime. Keep this
+   * list in sync with the {@code .font} keys in {@link #initComponentDefaults}.
+   */
+  public static void installFontDefaults(UIDefaults table, MaterialTheme theme) {
+    table.put("Button.font", theme.getButtonFont());
+    table.put("CheckBox.font", theme.getFontRegular());
+    table.put("ComboBox.font", theme.getFontRegular());
+    table.put("Label.font", theme.getFontRegular());
+    table.put("Menu.font", theme.getFontRegular());
+    table.put("MenuBar.font", theme.getFontBold());
+    table.put("MenuItem.font", theme.getFontRegular());
+    table.put("Panel.font", theme.getFontRegular());
+    table.put("RadioButton.font", theme.getFontRegular());
+    table.put("Spinner.font", theme.getFontRegular());
+    table.put("ScrollBar.font", theme.getFontRegular());
+    table.put("ScrollPane.font", theme.getFontRegular());
+    table.put("Slider.font", theme.getFontRegular());
+    table.put("TabbedPane.font", theme.getFontRegular());
+    table.put("Table.font", theme.getFontRegular());
+    table.put("TableHeader.font", theme.getFontBold());
+    table.put("TextArea.font", theme.getFontBold());
+    table.put("ToggleButton.font", theme.getFontRegular());
+    table.put("ToolBar.font", theme.getFontRegular());
+    table.put("Tree.font", theme.getFontRegular());
+    table.put("RadioButtonMenuItem.font", theme.getFontRegular());
+    table.put("CheckBoxMenuItem.font", theme.getFontRegular());
+    table.put("TextPane.font", theme.getFontItalic());
+    table.put("EditorPane.font", theme.getFontRegular());
+    table.put("ToolTip.font", theme.getFontRegular());
+    table.put("TextField.font", theme.getFontRegular());
+    table.put("FormattedTextField.font", theme.getFontRegular());
+    table.put("TitledBorder.font", theme.getFontMedium());
+    table.put("TaskPane.font", theme.getFontMedium());
+    table.put("List.font", theme.getFontMedium());
+    table.put("InternalFrame.titleFont", theme.getFontBold());
+    table.put("OptionPane.font", theme.getFontRegular());
+    table.put("FileChooser.font", theme.getFontRegular());
+    table.put("ProgressBar.font", theme.getFontRegular());
+    table.put("ColorChooser.font", theme.getFontRegular());
+  }
+
   protected void call(String method) {
     try {
       final Method superMethod = BasicLookAndFeel.class.getDeclaredMethod(method);
