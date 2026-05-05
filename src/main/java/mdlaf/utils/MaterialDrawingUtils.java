@@ -48,7 +48,13 @@ public class MaterialDrawingUtils {
       hints.put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_DEFAULT);
       // hints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
       // RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB);
-      hints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+      // FRACTIONALMETRICS_ON is intentionally not set here. Pairing fractional-precision paint
+      // with Swing's integer-precision layout (BasicLabelUI -> Component.getFontMetrics(Font) ->
+      // FontDesignMetrics.DEFAULT_FRC) accumulates subpixel drift across glyphs and truncates
+      // labels/buttons after dragging from a 1x to a 2x display on macOS Retina (JDK 9+).
+      // Re-enabling this requires routing layout through a matching fractional FRC, which
+      // Component.getFontMetrics has no public overload for.
+      // hints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
       hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
       // hints.put(RenderingHints.KEY_TEXT_ANTIALIASING,	RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
 
