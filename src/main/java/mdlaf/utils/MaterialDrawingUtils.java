@@ -29,6 +29,11 @@ import javax.swing.plaf.basic.BasicGraphicsUtils;
  * @author https://github.com/atarw
  */
 public class MaterialDrawingUtils {
+  private static final String OLD_FRACTIONAL_METRICS =
+      MaterialDrawingUtils.class.getName() + ".oldFractionalMetrics";
+  private static final String OLD_TEXT_ANTIALIASING =
+      MaterialDrawingUtils.class.getName() + ".oldTextAntialiasing";
+  private static final Object NO_CLIENT_PROPERTY = new Object();
 
   static {
     System.setProperty("awt.useSystemAAFontSettings", "on");
@@ -60,6 +65,58 @@ public class MaterialDrawingUtils {
     // g2d.addRenderingHints (new RenderingHints (RenderingHints.KEY_ANTIALIASING,
     // RenderingHints.VALUE_ANTIALIAS_ON));
     return g;
+  }
+
+  public static void installTextRenderingHints(JComponent c) {
+    // BasicLabelUI/BasicButtonUI measure through JComponent.getFontMetrics, which reads these
+    // RenderingHints keys from client properties. Keep layout metrics aligned with Material paint
+    // hints so a window laid out on 1x does not clip text when repainted on 2x.
+    installTextRenderingHint(
+        c,
+        RenderingHints.KEY_FRACTIONALMETRICS,
+        RenderingHints.VALUE_FRACTIONALMETRICS_ON,
+        OLD_FRACTIONAL_METRICS);
+    installTextRenderingHint(
+        c,
+        RenderingHints.KEY_TEXT_ANTIALIASING,
+        RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
+        OLD_TEXT_ANTIALIASING);
+  }
+
+  public static void uninstallTextRenderingHints(JComponent c) {
+    uninstallTextRenderingHint(
+        c,
+        RenderingHints.KEY_FRACTIONALMETRICS,
+        RenderingHints.VALUE_FRACTIONALMETRICS_ON,
+        OLD_FRACTIONAL_METRICS);
+    uninstallTextRenderingHint(
+        c,
+        RenderingHints.KEY_TEXT_ANTIALIASING,
+        RenderingHints.VALUE_TEXT_ANTIALIAS_ON,
+        OLD_TEXT_ANTIALIASING);
+  }
+
+  private static void installTextRenderingHint(
+      JComponent c, RenderingHints.Key hintKey, Object hintValue, String oldValueKey) {
+    if (c.getClientProperty(oldValueKey) != null) {
+      return;
+    }
+    Object oldValue = c.getClientProperty(hintKey);
+    c.putClientProperty(oldValueKey, oldValue == null ? NO_CLIENT_PROPERTY : oldValue);
+    c.putClientProperty(hintKey, hintValue);
+  }
+
+  private static void uninstallTextRenderingHint(
+      JComponent c, RenderingHints.Key hintKey, Object installedValue, String oldValueKey) {
+    Object oldValue = c.getClientProperty(oldValueKey);
+    if (oldValue == null) {
+      return;
+    }
+    c.putClientProperty(oldValueKey, null);
+    if (c.getClientProperty(hintKey) != installedValue) {
+      return;
+    }
+    c.putClientProperty(hintKey, oldValue == NO_CLIENT_PROPERTY ? null : oldValue);
   }
 
   public static void drawCircle(Graphics g, int x, int y, int radius, Color color) {

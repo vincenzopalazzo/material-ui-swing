@@ -66,6 +66,7 @@ public class MaterialButtonUI extends BasicButtonUI {
   @Override
   public void installUI(JComponent c) {
     super.installUI(c);
+    MaterialDrawingUtils.installTextRenderingHints(c);
 
     AbstractButton button = (AbstractButton) c;
     button.setOpaque(UIManager.getBoolean("Button.opaque"));
@@ -109,6 +110,7 @@ public class MaterialButtonUI extends BasicButtonUI {
 
   @Override
   public void uninstallUI(JComponent c) {
+    MaterialDrawingUtils.uninstallTextRenderingHints(c);
     super.uninstallUI(c);
 
     AbstractButton button = (AbstractButton) c;

@@ -45,10 +45,12 @@ public class MaterialLabelUI extends BasicLabelUI {
   @Override
   public void installUI(JComponent c) {
     super.installUI(c);
+    MaterialDrawingUtils.installTextRenderingHints(c);
   }
 
   @Override
   public void uninstallUI(JComponent c) {
+    MaterialDrawingUtils.uninstallTextRenderingHints(c);
     super.uninstallUI(c);
   }
 
