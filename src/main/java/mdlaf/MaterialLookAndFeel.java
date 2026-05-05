@@ -22,6 +22,10 @@
 package mdlaf;
 
 import java.awt.*;
+import java.awt.event.AWTEventListener;
+import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
@@ -816,8 +820,93 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
     return super.getDefaults();
   }
 
+  /**
+   * Listens for newly-shown windows and attaches a {@link #graphicsConfigurationListener} to each
+   * one. Without this hook, dragging a window across displays of different DPI scaling factors
+   * (e.g. external 1x → built-in Retina 2x on macOS) leaves child component sizes pinned to the
+   * previous display's preferred-size values; trailing glyphs get clipped because the JDK fires a
+   * {@code graphicsConfiguration} PropertyChangeEvent but does not trigger any layout invalidation
+   * in response.
+   */
+  private final AWTEventListener windowOpenedListener =
+      new AWTEventListener() {
+        @Override
+        public void eventDispatched(AWTEvent event) {
+          if (event.getID() == WindowEvent.WINDOW_OPENED && event.getSource() instanceof Window) {
+            Window window = (Window) event.getSource();
+            window.addPropertyChangeListener(
+                "graphicsConfiguration", graphicsConfigurationListener);
+          }
+        }
+      };
+
+  /**
+   * Triggers a fresh layout pass on the affected window so child components re-query their
+   * per-display preferred sizes and the layout manager re-assigns their {@code size}. This is the
+   * minimal action needed to recover from the JDK's missing layout-invalidation on display change —
+   * UI delegates are not rebuilt and L&F state is not reinstalled, so downstream component
+   * libraries (custom UIs, host-app {@code UIManager.put} overrides, etc.) keep their state.
+   */
+  private final PropertyChangeListener graphicsConfigurationListener =
+      new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          if (!(evt.getSource() instanceof Window)) {
+            return;
+          }
+          Window window = (Window) evt.getSource();
+          SwingUtilities.invokeLater(
+              () -> {
+                // Container.invalidate() only marks one container invalid and propagates UP
+                // (Component.java). Container.validate() only recurses into children that are
+                // invalid. So invalidating just the Window leaves nested Containers (the
+                // FlowLayout/BorderLayout panels that hold our components) marked valid,
+                // and their layoutContainer is never re-run after the display change. Walk the
+                // tree downward and invalidate every Container so validate() actually re-lays
+                // out child sizes against the new display's per-DPI preferred-size values.
+                invalidateTree(window);
+                window.validate();
+                window.repaint();
+              });
+        }
+      };
+
+  private static void invalidateTree(Component c) {
+    c.invalidate();
+    if (c instanceof Container) {
+      for (Component child : ((Container) c).getComponents()) {
+        invalidateTree(child);
+      }
+    }
+  }
+
+  @Override
+  public void initialize() {
+    super.initialize();
+    try {
+      Toolkit.getDefaultToolkit()
+          .addAWTEventListener(windowOpenedListener, AWTEvent.WINDOW_EVENT_MASK);
+    } catch (SecurityException ignored) {
+      // Headless or restricted: skip silently. The L&F still works; only mixed-DPI auto-relayout
+      // is unavailable.
+    }
+    // Cover already-open windows (relevant when the user calls UIManager.setLookAndFeel(...) on a
+    // running application after windows are visible).
+    for (Window window : Window.getWindows()) {
+      window.addPropertyChangeListener("graphicsConfiguration", graphicsConfigurationListener);
+    }
+  }
+
   @Override
   public void uninitialize() {
+    try {
+      Toolkit.getDefaultToolkit().removeAWTEventListener(windowOpenedListener);
+    } catch (SecurityException ignored) {
+      // Mirror the swallow in initialize().
+    }
+    for (Window window : Window.getWindows()) {
+      window.removePropertyChangeListener("graphicsConfiguration", graphicsConfigurationListener);
+    }
     call("uninitialize");
   }
 
