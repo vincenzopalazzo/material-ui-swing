@@ -23,10 +23,17 @@ package mdlaf;
 
 import java.awt.*;
 import java.awt.event.AWTEventListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowEvent;
+import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.Map;
+import java.util.WeakHashMap;
 import javax.swing.*;
 import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.basic.BasicLookAndFeel;
@@ -821,55 +828,128 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
   }
 
   /**
-   * Listens for newly-shown windows and attaches a {@link #graphicsConfigurationListener} to each
-   * one. Without this hook, dragging a window across displays of different DPI scaling factors
-   * (e.g. external 1x → built-in Retina 2x on macOS) leaves child component sizes pinned to the
-   * previous display's preferred-size values; trailing glyphs get clipped because the JDK fires a
-   * {@code graphicsConfiguration} PropertyChangeEvent but does not trigger any layout invalidation
-   * in response.
+   * Last per-{@link Window} {@link AffineTransform} we saw at the moment we last revalidated. A
+   * trigger event ({@link #graphicsConfigurationListener}, {@link #componentResizeListener}, or
+   * {@link #desktopHintsListener}) only fires the layout cascade if the transform has actually
+   * changed since this map was last updated. Without this guard, every routine resize event from
+   * AWT would force an unnecessary full-tree invalidate. The map is weakly-keyed so disposed
+   * windows don't pin garbage-collectible state.
+   */
+  private final Map<Window, AffineTransform> lastSeenTransforms =
+      Collections.synchronizedMap(new WeakHashMap<>());
+
+  /**
+   * Hooks each newly-shown {@link Window} with the per-window listeners that detect display-scale
+   * changes. Without this, dragging a window across displays of different DPI scaling factors (e.g.
+   * external 1x → built-in Retina 2x on macOS) or changing the macOS UI scale (System Settings →
+   * Displays → "Larger Text / Default / More Space") leaves child component sizes pinned to the
+   * previous display's preferred-size values and clips trailing glyphs.
+   *
+   * <p>The cross-display drag case is caught by the {@code "graphicsConfiguration"} property change
+   * (JDK swaps the {@link GraphicsConfiguration} reference). The same-display scale-change case may
+   * not swap the GC reference at all — only the GC's internal transform is updated in place — so we
+   * also subscribe to {@link ComponentEvent#COMPONENT_RESIZED} on each window and to the toolkit
+   * {@code "awt.font.desktophints"} desktop property as additional triggers, with {@link
+   * #lastSeenTransforms} guarding against firing the cascade when the transform hasn't actually
+   * changed.
    */
   private final AWTEventListener windowOpenedListener =
       new AWTEventListener() {
         @Override
         public void eventDispatched(AWTEvent event) {
           if (event.getID() == WindowEvent.WINDOW_OPENED && event.getSource() instanceof Window) {
-            Window window = (Window) event.getSource();
-            window.addPropertyChangeListener(
-                "graphicsConfiguration", graphicsConfigurationListener);
+            attachListeners((Window) event.getSource());
+          }
+        }
+      };
+
+  private final PropertyChangeListener graphicsConfigurationListener =
+      new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          if (evt.getSource() instanceof Window) {
+            maybeRevalidate((Window) evt.getSource());
+          }
+        }
+      };
+
+  private final ComponentListener componentResizeListener =
+      new ComponentAdapter() {
+        @Override
+        public void componentResized(ComponentEvent e) {
+          if (e.getSource() instanceof Window) {
+            maybeRevalidate((Window) e.getSource());
+          }
+        }
+      };
+
+  private final PropertyChangeListener desktopHintsListener =
+      new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          // System font / hint changes that often accompany macOS UI-scale changes. Iterate
+          // over every visible window so the same-display scale-change case is covered even if
+          // the per-window graphicsConfiguration property never fires.
+          for (Window window : Window.getWindows()) {
+            maybeRevalidate(window);
           }
         }
       };
 
   /**
-   * Triggers a fresh layout pass on the affected window so child components re-query their
-   * per-display preferred sizes and the layout manager re-assigns their {@code size}. This is the
-   * minimal action needed to recover from the JDK's missing layout-invalidation on display change —
-   * UI delegates are not rebuilt and L&F state is not reinstalled, so downstream component
-   * libraries (custom UIs, host-app {@code UIManager.put} overrides, etc.) keep their state.
+   * Drives the actual layout cascade. Skips when the {@link Window}'s {@link
+   * GraphicsConfiguration#getDefaultTransform() default transform} has not changed since the last
+   * cascade — so noisy resize events that don't reflect a scale change are no-ops.
+   *
+   * <p>The cascade itself walks the tree downward and invalidates every container, then runs a full
+   * {@link Container#validate()}. {@link Container#invalidate()} only marks one container invalid
+   * and propagates UP; {@link Container#validate()} only recurses into invalid children. Without
+   * the downward walk, nested {@code FlowLayout}/{@code BorderLayout} panels stay marked valid and
+   * their {@code layoutContainer} is never re-run after the display change.
    */
-  private final PropertyChangeListener graphicsConfigurationListener =
-      new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-          if (!(evt.getSource() instanceof Window)) {
-            return;
-          }
-          Window window = (Window) evt.getSource();
-          SwingUtilities.invokeLater(
-              () -> {
-                // Container.invalidate() only marks one container invalid and propagates UP
-                // (Component.java). Container.validate() only recurses into children that are
-                // invalid. So invalidating just the Window leaves nested Containers (the
-                // FlowLayout/BorderLayout panels that hold our components) marked valid,
-                // and their layoutContainer is never re-run after the display change. Walk the
-                // tree downward and invalidate every Container so validate() actually re-lays
-                // out child sizes against the new display's per-DPI preferred-size values.
-                invalidateTree(window);
-                window.validate();
-                window.repaint();
-              });
-        }
-      };
+  private void maybeRevalidate(Window window) {
+    GraphicsConfiguration gc = window.getGraphicsConfiguration();
+    if (gc == null) {
+      return;
+    }
+    AffineTransform current = gc.getDefaultTransform();
+    AffineTransform previous = lastSeenTransforms.put(window, current);
+    if (previous != null && previous.equals(current)) {
+      return;
+    }
+    SwingUtilities.invokeLater(
+        () -> {
+          invalidateTree(window);
+          window.validate();
+          window.repaint();
+        });
+  }
+
+  private void attachListeners(Window window) {
+    // Remove-before-add keeps this method idempotent. initialize() walks
+    // Window.getWindows() to cover already-open windows, and the WINDOW_OPENED
+    // AWTEventListener also lands here when those same windows subsequently fire
+    // WINDOW_OPENED (a window created before initialize() but shown afterward).
+    // Without this dedupe each graphicsConfiguration change would run the relayout
+    // path multiple times, and uninitialize()'s single removeListener call would
+    // leave stale registrations behind across repeated setLookAndFeel cycles.
+    // PropertyChangeSupport.removePropertyChangeListener and
+    // Component.removeComponentListener are no-ops if the listener was not previously
+    // registered, so this is safe on the first call too.
+    window.removePropertyChangeListener("graphicsConfiguration", graphicsConfigurationListener);
+    window.removeComponentListener(componentResizeListener);
+    window.addPropertyChangeListener("graphicsConfiguration", graphicsConfigurationListener);
+    window.addComponentListener(componentResizeListener);
+    GraphicsConfiguration gc = window.getGraphicsConfiguration();
+    if (gc != null) {
+      lastSeenTransforms.put(window, gc.getDefaultTransform());
+    }
+  }
+
+  private void detachListeners(Window window) {
+    window.removePropertyChangeListener("graphicsConfiguration", graphicsConfigurationListener);
+    window.removeComponentListener(componentResizeListener);
+  }
 
   private static void invalidateTree(Component c) {
     c.invalidate();
@@ -890,10 +970,12 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
       // Headless or restricted: skip silently. The L&F still works; only mixed-DPI auto-relayout
       // is unavailable.
     }
+    Toolkit.getDefaultToolkit()
+        .addPropertyChangeListener("awt.font.desktophints", desktopHintsListener);
     // Cover already-open windows (relevant when the user calls UIManager.setLookAndFeel(...) on a
     // running application after windows are visible).
     for (Window window : Window.getWindows()) {
-      window.addPropertyChangeListener("graphicsConfiguration", graphicsConfigurationListener);
+      attachListeners(window);
     }
   }
 
@@ -904,9 +986,12 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
     } catch (SecurityException ignored) {
       // Mirror the swallow in initialize().
     }
+    Toolkit.getDefaultToolkit()
+        .removePropertyChangeListener("awt.font.desktophints", desktopHintsListener);
     for (Window window : Window.getWindows()) {
-      window.removePropertyChangeListener("graphicsConfiguration", graphicsConfigurationListener);
+      detachListeners(window);
     }
+    lastSeenTransforms.clear();
     call("uninitialize");
   }
 
