@@ -926,6 +926,18 @@ public class MaterialLookAndFeel extends MetalLookAndFeel {
   }
 
   private void attachListeners(Window window) {
+    // Remove-before-add keeps this method idempotent. initialize() walks
+    // Window.getWindows() to cover already-open windows, and the WINDOW_OPENED
+    // AWTEventListener also lands here when those same windows subsequently fire
+    // WINDOW_OPENED (a window created before initialize() but shown afterward).
+    // Without this dedupe each graphicsConfiguration change would run the relayout
+    // path multiple times, and uninitialize()'s single removeListener call would
+    // leave stale registrations behind across repeated setLookAndFeel cycles.
+    // PropertyChangeSupport.removePropertyChangeListener and
+    // Component.removeComponentListener are no-ops if the listener was not previously
+    // registered, so this is safe on the first call too.
+    window.removePropertyChangeListener("graphicsConfiguration", graphicsConfigurationListener);
+    window.removeComponentListener(componentResizeListener);
     window.addPropertyChangeListener("graphicsConfiguration", graphicsConfigurationListener);
     window.addComponentListener(componentResizeListener);
     GraphicsConfiguration gc = window.getGraphicsConfiguration();
