@@ -28,7 +28,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellEditor;
 import mdlaf.utils.MaterialDrawingUtils;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialTreeUI extends BasicTreeUI {
 
   public static ComponentUI createUI(JComponent c) {

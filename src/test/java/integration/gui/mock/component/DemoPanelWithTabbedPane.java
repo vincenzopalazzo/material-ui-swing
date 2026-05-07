@@ -4,7 +4,9 @@ import java.awt.*;
 import javax.swing.*;
 import mdlaf.utils.MaterialColors;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class DemoPanelWithTabbedPane extends JPanel {
 
   protected JTabbedPane tabbedPane;

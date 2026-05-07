@@ -38,7 +38,9 @@ import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public abstract class AbstractTestGUI extends AssertJSwingTestCaseTemplate {
 
   protected FrameFixture frame;

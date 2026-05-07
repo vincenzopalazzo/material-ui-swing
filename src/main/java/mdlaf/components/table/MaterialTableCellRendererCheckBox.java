@@ -25,7 +25,9 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 class MaterialTableCellRendererCheckBox extends JCheckBox implements TableCellRenderer {
 
   protected Icon unchecked = UIManager.getIcon("Table[CheckBox].unchecked");

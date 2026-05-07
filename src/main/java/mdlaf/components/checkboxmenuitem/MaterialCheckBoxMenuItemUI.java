@@ -26,7 +26,9 @@ import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialCheckBoxMenuItemUI extends BasicCheckBoxMenuItemUI {
 
   public static ComponentUI createUI(JComponent c) {

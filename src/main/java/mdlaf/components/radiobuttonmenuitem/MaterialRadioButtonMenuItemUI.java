@@ -27,7 +27,9 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicRadioButtonMenuItemUI;
 import mdlaf.utils.MaterialDrawingUtils;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialRadioButtonMenuItemUI extends BasicRadioButtonMenuItemUI {
 
   public static ComponentUI createUI(JComponent c) {

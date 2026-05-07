@@ -26,7 +26,9 @@ package integration.gui.mock.component;
 import javax.swing.*;
 import mdlaf.themes.MaterialLiteTheme;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class PersonalToggleButtonTheme extends MaterialLiteTheme {
 
   public PersonalToggleButtonTheme() {

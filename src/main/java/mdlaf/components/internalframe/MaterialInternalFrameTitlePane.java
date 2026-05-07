@@ -26,7 +26,9 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import mdlaf.components.button.MaterialButtonUI;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialInternalFrameTitlePane extends BasicInternalFrameTitlePane {
 
   public MaterialInternalFrameTitlePane(JInternalFrame f) {

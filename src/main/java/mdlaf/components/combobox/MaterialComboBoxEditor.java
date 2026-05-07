@@ -25,7 +25,9 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialComboBoxEditor extends BasicComboBoxEditor {
 
   @Override

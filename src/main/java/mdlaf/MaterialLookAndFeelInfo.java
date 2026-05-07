@@ -23,7 +23,9 @@ package mdlaf;
 
 import javax.swing.*;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialLookAndFeelInfo extends UIManager.LookAndFeelInfo {
 
   public MaterialLookAndFeelInfo(String name, String className) {

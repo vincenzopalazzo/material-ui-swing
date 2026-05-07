@@ -34,7 +34,9 @@ import mdlaf.themes.JMarsDarkTheme;
 import mdlaf.themes.MaterialLiteTheme;
 import mdlaf.themes.MaterialOceanicTheme;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class ContainerAction {
 
   private Action enableButtonDisabled = new ActionEnableButtonDisabled();

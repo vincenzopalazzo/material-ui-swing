@@ -23,7 +23,9 @@
  */
 package mdlaf.themes.exceptions;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialChangeThemeException extends RuntimeException {
 
   public MaterialChangeThemeException() {

@@ -35,7 +35,9 @@ import mdlaf.animation.MaterialMouseHover;
 import mdlaf.components.button.MaterialButtonUI;
 import mdlaf.utils.MaterialDrawingUtils;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialTabbedPaneUI extends BasicTabbedPaneUI {
 
   public static ComponentUI createUI(JComponent c) {
@@ -419,7 +421,9 @@ public class MaterialTabbedPaneUI extends BasicTabbedPaneUI {
     return new ArrowButtonTabbedPane(direction);
   }
 
-  /** @deprecated remove this implementation inside the version 1.2 of the library. */
+  /**
+   * @deprecated remove this implementation inside the version 1.2 of the library.
+   */
   @Deprecated
   protected class MaterialTabbedPaneLayout extends BasicTabbedPaneUI.TabbedPaneLayout {
 

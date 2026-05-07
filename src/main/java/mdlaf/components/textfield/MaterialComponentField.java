@@ -34,7 +34,9 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicTextFieldUI;
 import javax.swing.text.JTextComponent;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public abstract class MaterialComponentField extends BasicTextFieldUI {
 
   protected static final String PROPERTY_LINE_COLOR = "lineColor";

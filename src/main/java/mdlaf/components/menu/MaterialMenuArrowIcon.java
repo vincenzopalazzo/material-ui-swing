@@ -23,7 +23,9 @@ package mdlaf.components.menu;
 import java.awt.*;
 import javax.swing.*;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialMenuArrowIcon implements Icon {
   @Override
   public void paintIcon(Component c, Graphics g, int x, int y) {

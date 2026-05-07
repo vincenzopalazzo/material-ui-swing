@@ -26,7 +26,9 @@ import javax.swing.*;
 import mdlaf.components.button.MaterialButtonUI;
 import mdlaf.utils.MaterialColors;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class CustomIconButtonUI extends MaterialButtonUI {
 
   @Override

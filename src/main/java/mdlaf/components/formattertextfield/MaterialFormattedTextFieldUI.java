@@ -27,7 +27,9 @@ import javax.swing.plaf.ComponentUI;
 import mdlaf.components.textfield.MaterialComponentField;
 import mdlaf.utils.MaterialDrawingUtils;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialFormattedTextFieldUI extends MaterialComponentField {
 
   protected static final String ProprietyPrefix = "FormattedTextField";

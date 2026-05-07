@@ -28,7 +28,9 @@ import mdlaf.animation.MaterialUIMovement;
 import mdlaf.components.button.MaterialButtonUI;
 import mdlaf.utils.MaterialColors;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class JButtonNoMouseHoverNative extends JButton {
 
   public JButtonNoMouseHoverNative() {}

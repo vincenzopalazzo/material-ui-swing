@@ -30,7 +30,9 @@ import org.assertj.swing.fixture.JTextComponentFixture;
 import org.junit.Assert;
 import org.junit.Test;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialPasswordFieldTest extends AbstractTestGUI {
 
   /*

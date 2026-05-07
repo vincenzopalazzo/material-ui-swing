@@ -23,7 +23,9 @@
  */
 package mdlaf.utils;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class Utils {
 
   public static boolean isJavaVersionUnderJava9() {

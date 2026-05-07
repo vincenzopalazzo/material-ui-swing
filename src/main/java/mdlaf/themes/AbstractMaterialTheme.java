@@ -32,7 +32,9 @@ import mdlaf.utils.MaterialFontFactory;
 import mdlaf.utils.MaterialImageFactory;
 import mdlaf.utils.icons.MaterialIconFont;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public abstract class AbstractMaterialTheme implements MaterialTheme {
 
   protected ColorUIResource backgroundPrimary;
