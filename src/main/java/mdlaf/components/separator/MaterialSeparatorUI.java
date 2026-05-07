@@ -26,7 +26,9 @@ import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicSeparatorUI;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialSeparatorUI extends BasicSeparatorUI {
 
   public static ComponentUI createUI(JComponent c) {

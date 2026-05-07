@@ -44,7 +44,9 @@ import mdlaf.utils.MaterialColors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class DemoGUITest extends JFrame {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DemoGUITest.class);

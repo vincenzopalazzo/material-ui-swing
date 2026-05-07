@@ -24,7 +24,9 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialTreeCellRenderer extends DefaultTreeCellRenderer {
 
   protected Color foreground;

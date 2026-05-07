@@ -25,7 +25,9 @@ import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialInternalFrameUI extends BasicInternalFrameUI {
 
   public MaterialInternalFrameUI(JInternalFrame b) {

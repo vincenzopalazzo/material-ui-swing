@@ -6,7 +6,9 @@ import javax.swing.plaf.ComponentUI;
 import mdlaf.components.button.MaterialButtonUI;
 import mdlaf.utils.MaterialColors;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class PersonalButtonUI extends MaterialButtonUI {
 
   @SuppressWarnings({"MethodOverridesStaticMethodOfSuperclass", "UnusedDeclaration"})

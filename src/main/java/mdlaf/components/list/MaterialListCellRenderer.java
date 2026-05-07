@@ -24,7 +24,9 @@ package mdlaf.components.list;
 import java.awt.*;
 import javax.swing.*;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialListCellRenderer extends DefaultListCellRenderer {
 
   @Override

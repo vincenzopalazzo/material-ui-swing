@@ -27,7 +27,9 @@ import javax.swing.*;
 import org.assertj.swing.fixture.JButtonFixture;
 import org.junit.Test;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialFocusedButtonTest extends AbstractTestGUI {
 
   @Override

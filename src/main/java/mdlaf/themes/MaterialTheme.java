@@ -26,7 +26,9 @@ package mdlaf.themes;
 import javax.swing.*;
 import javax.swing.plaf.*;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 @SuppressWarnings("all")
 public interface MaterialTheme {
 

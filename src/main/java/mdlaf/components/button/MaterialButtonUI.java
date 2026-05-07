@@ -32,7 +32,9 @@ import mdlaf.animation.MaterialMouseHover;
 import mdlaf.animation.MaterialUIMovement;
 import mdlaf.utils.MaterialDrawingUtils;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialButtonUI extends BasicButtonUI {
 
   public static ComponentUI createUI(final JComponent c) {

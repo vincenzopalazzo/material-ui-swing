@@ -27,7 +27,9 @@ import java.io.File;
 import java.util.Date;
 import javax.swing.table.AbstractTableModel;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class TableModelSecondPanel extends AbstractTableModel {
 
   protected File dir;

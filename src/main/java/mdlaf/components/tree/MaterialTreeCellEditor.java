@@ -30,7 +30,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellEditor;
 import mdlaf.components.textfield.MaterialTextFieldUI;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialTreeCellEditor extends DefaultTreeCellEditor {
 
   private JTextField textField;

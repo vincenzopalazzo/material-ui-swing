@@ -29,7 +29,9 @@ import javax.swing.border.AbstractBorder;
 import mdlaf.utils.MaterialColors;
 import mdlaf.utils.MaterialDrawingUtils;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class RoundedCornerBorder extends AbstractBorder {
 
   protected int arch = 12; // default value

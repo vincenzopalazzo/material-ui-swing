@@ -25,7 +25,9 @@ import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialProgressBarUI extends BasicProgressBarUI {
 
   public static ComponentUI createUI(JComponent c) {

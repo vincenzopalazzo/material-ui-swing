@@ -27,7 +27,9 @@ import java.io.InputStream;
 import jiconfont.IconFont;
 import mdlaf.utils.MaterialFontFactory;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public enum MaterialIconFont implements IMaterialIconCode {
 
   // New icon not supported inside the official repository

@@ -27,7 +27,9 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 import mdlaf.animation.MaterialUITimer;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialManagerListener {
   /*
    * Look this if you would change this function

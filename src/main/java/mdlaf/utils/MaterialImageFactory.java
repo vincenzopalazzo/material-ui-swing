@@ -37,7 +37,9 @@ import jiconfont.swing.IconFontSwing;
 import mdlaf.utils.icons.IMaterialIconCode;
 import mdlaf.utils.icons.MaterialIconFont;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialImageFactory {
 
   static {

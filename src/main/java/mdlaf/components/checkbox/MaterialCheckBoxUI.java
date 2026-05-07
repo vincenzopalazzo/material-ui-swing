@@ -30,7 +30,9 @@ import javax.swing.plaf.basic.BasicCheckBoxUI;
 import mdlaf.animation.MaterialMouseHover;
 import mdlaf.utils.MaterialDrawingUtils;
 
-/** @author https://github.com/vincenzopalazzo */
+/**
+ * @author https://github.com/vincenzopalazzo
+ */
 public class MaterialCheckBoxUI extends BasicCheckBoxUI {
 
   public static ComponentUI createUI(JComponent c) {
