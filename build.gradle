@@ -11,18 +11,19 @@ buildscript {
 
 apply plugin: 'java-library'
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: "com.github.sherter.google-java-format"
+
+googleJavaFormat {
+    toolVersion = '1.15.0'
+}
+
 apply from: 'gradle/local-deploy.gradle'
 apply from: 'gradle/release.gradle'
 
 repositories {
-    jcenter()
-    flatDir {
-        dirs '/home/vincent/Github/DarkStackOverflowTheme/build/libs'
-        dirs '/home/vincent/Github/jiconfont-google_material_design_icons/target'
-    }
+    mavenCentral()
 }
 
 dependencies {
@@ -30,15 +31,15 @@ dependencies {
     implementation 'com.github.jiconfont:jiconfont-swing:1.0.1'
 
     //Slf4j configuration
-    testCompile 'ch.qos.logback:logback-classic:1.2.3'
-    testCompile 'ch.qos.logback:logback-core:1.2.3'
-    testCompile 'org.slf4j:slf4j-api:1.7.25'
+    testImplementation 'ch.qos.logback:logback-classic:1.2.3'
+    testImplementation 'ch.qos.logback:logback-core:1.2.3'
+    testImplementation 'org.slf4j:slf4j-api:1.7.25'
     // Use JUnit test framework
-    testCompile 'junit:junit:4.12'
-    testCompile group: 'org.assertj', name: 'assertj-swing-junit', version: '3.9.2'
+    testImplementation 'junit:junit:4.12'
+    testImplementation group: 'org.assertj', name: 'assertj-swing-junit', version: '3.9.2'
     // Testing dependencies
-    testCompile 'io.github.material-ui-swing:DarkStackOverflowTheme:0.0.1-rc2'
-    testCompile group: 'com.toedter', name: 'jcalendar', version: '1.4'
+    testImplementation 'io.github.material-ui-swing:DarkStackOverflowTheme:0.0.1-rc2'
+    testImplementation group: 'com.toedter', name: 'jcalendar', version: '1.4'
 }
 
 allprojects {
@@ -78,5 +79,6 @@ task runDemo(type: Exec) {
     commandLine "java", "-classpath", sourceSets.test.runtimeClasspath.getAsPath(), 'integration.gui.mock.DemoGUITest'
 }
 
-uploadArchives.onlyIf { property('RELEASE_ENABLE') == 'true'}
-signArchives.onlyIf { property('RELEASE_ENABLE') == 'true'}
+tasks.withType(Javadoc).configureEach {
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
