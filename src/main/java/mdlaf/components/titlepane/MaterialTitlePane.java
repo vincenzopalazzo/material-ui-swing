@@ -706,7 +706,7 @@ public class MaterialTitlePane extends JComponent {
     @Override
     public void mousePressed(MouseEvent e) {
       if (window == null) return; // should newer occur
-      dragOffset = SwingUtilities.convertPoint(MaterialTitlePane.this, e.getPoint(), window);
+      dragOffset = new Point(e.getXOnScreen() - window.getX(), e.getYOnScreen() - window.getY());
     }
 
     @Override
