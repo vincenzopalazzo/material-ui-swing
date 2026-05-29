@@ -69,6 +69,7 @@ public class MaterialTabbedPaneUI extends BasicTabbedPaneUI {
     super.installUI(c);
 
     tabPane.setOpaque(false);
+    tabPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
     this.foreground = new ColorUIResource(UIManager.getColor("TabbedPane.foreground"));
     this.selectedForeground =
         new ColorUIResource(UIManager.getColor("TabbedPane.selectionForeground"));
